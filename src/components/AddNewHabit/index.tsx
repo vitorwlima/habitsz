@@ -3,7 +3,18 @@ import { Dialog, Transition } from "@headlessui/react";
 import type { Habit } from "@prisma/client";
 
 import { Input } from "../Input";
+import { Select } from "../Select";
 import { trpc } from "../../utils/trpc";
+
+const frequencyOptions = [
+  { value: "mo", label: "Monday" },
+  { value: "tu", label: "Tuesday" },
+  { value: "we", label: "Wednesday" },
+  { value: "th", label: "Thursday" },
+  { value: "fr", label: "Friday" },
+  { value: "sa", label: "Saturday" },
+  { value: "su", label: "Sunday" },
+];
 
 export const AddNewHabit: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +42,10 @@ export const AddNewHabit: React.FC = () => {
       const value = name === "points" ? Number(e.target.value) : e.target.value;
       setHabit({ ...habit, [name]: value });
     };
+
+  const onFrequencyChange = (options: typeof frequencyOptions) => {
+    setHabit({ ...habit, frequency: options.map((o) => o.value).join(",") });
+  };
 
   const handleCreateHabit = async () => {
     mutate(habit);
@@ -97,12 +112,13 @@ export const AddNewHabit: React.FC = () => {
                       onChange={onChange("description")}
                       value={habit.description}
                     />
-                    <Input
+                    <Select
+                      options={frequencyOptions}
                       label="Frequency"
-                      name="frequency"
-                      placeholder="Daily or weekly"
-                      onChange={onChange("frequency")}
-                      value={habit.frequency}
+                      isMulti
+                      onChange={(values) =>
+                        onFrequencyChange(values as typeof frequencyOptions)
+                      }
                     />
                     <Input
                       label="Points on completion"
