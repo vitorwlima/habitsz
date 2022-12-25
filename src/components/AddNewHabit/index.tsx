@@ -7,13 +7,13 @@ import { Select } from "../Select";
 import { trpc } from "../../utils/trpc";
 
 const frequencyOptions = [
-  { value: "mo", label: "Monday" },
-  { value: "tu", label: "Tuesday" },
-  { value: "we", label: "Wednesday" },
-  { value: "th", label: "Thursday" },
-  { value: "fr", label: "Friday" },
-  { value: "sa", label: "Saturday" },
-  { value: "su", label: "Sunday" },
+  { value: "Mon", label: "Monday" },
+  { value: "Tue", label: "Tuesday" },
+  { value: "Wed", label: "Wednesday" },
+  { value: "Thu", label: "Thursday" },
+  { value: "Fri", label: "Friday" },
+  { value: "Sat", label: "Saturday" },
+  { value: "Sun", label: "Sunday" },
 ];
 
 export const AddNewHabit: React.FC = () => {
@@ -54,7 +54,7 @@ export const AddNewHabit: React.FC = () => {
   return (
     <>
       <button
-        className="w-fit justify-center self-end rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 transition-colors hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500  focus-visible:ring-offset-2"
+        className="w-fit justify-center self-end rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 transition-colors hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         onClick={() => setIsOpen(true)}
       >
         + Add new habit
