@@ -6,9 +6,7 @@ export const habitRouter = router({
   getAll: publicProcedure.query(async () => {
     const habits = await prisma?.habit.findMany();
 
-    return {
-      habits,
-    };
+    return habits || [];
   }),
 
   create: publicProcedure
