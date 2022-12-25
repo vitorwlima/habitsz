@@ -13,10 +13,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-blue-800 to-gray-900">
         <div className="container flex max-w-[1200px] flex-col py-8">
           <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-            Habit <span className="text-[hsl(280,100%,70%)]">Tracker</span>
+            Habit <span className="text-blue-400">Tracker</span>
           </h1>
         </div>
       </main>
