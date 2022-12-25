@@ -27,8 +27,10 @@ export const AddNewHabit: React.FC = () => {
     points: 0,
   });
 
+  const trpcUtils = trpc.useContext();
   const { mutate } = trpc.habit.create.useMutation({
     onSuccess: () => {
+      trpcUtils.habit.getAll.invalidate();
       setIsOpen(false);
       console.log("Successfully created");
     },
