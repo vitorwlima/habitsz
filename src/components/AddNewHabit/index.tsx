@@ -117,18 +117,18 @@ export const AddNewHabit: React.FC = () => {
                   <div className="mt-8 flex justify-between">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500  focus-visible:ring-offset-2"
-                      onClick={() => handleCreateHabit()}
-                    >
-                      Create
-                    </button>
-
-                    <button
-                      type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-red-300 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={() => setIsOpen(false)}
                     >
                       Cancel
+                    </button>
+
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500  focus-visible:ring-offset-2"
+                      onClick={() => handleCreateHabit()}
+                    >
+                      Create
                     </button>
                   </div>
                 </Dialog.Panel>
