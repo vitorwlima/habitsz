@@ -1,4 +1,4 @@
-import type { Habit } from "@prisma/client";
+import type { Habit, HabitCompletion } from "@prisma/client";
 import { useState } from "react";
 import { format, addDays } from "date-fns";
 
@@ -8,12 +8,14 @@ import { HabitItem } from "../HabitItem";
 
 type Props = {
   habits: Habit[];
+  habitCompletions: HabitCompletion[];
 };
 
-export const Habits: React.FC<Props> = ({ habits }) => {
+export const Habits: React.FC<Props> = ({ habits, habitCompletions }) => {
   const [selectedDay, setSelectedDay] = useState(new Date());
   const weekDay = format(selectedDay, "eee");
   const formattedDay = format(selectedDay, "MM-dd - EEEE");
+  const habitDate = format(selectedDay, "yyyy-MM-dd");
 
   const habitsForDay = habits.filter((habit) =>
     habit.frequency.split(",").includes(weekDay)
@@ -42,7 +44,14 @@ export const Habits: React.FC<Props> = ({ habits }) => {
       </header>
       <div className="mt-16 flex flex-col gap-4">
         {habitsForDay.map((habit) => (
-          <HabitItem key={`${habit.id}-${formattedDay}`} habit={habit} />
+          <HabitItem
+            key={`${habit.id}-${formattedDay}`}
+            habit={habit}
+            habitCompletion={habitCompletions.find(
+              (hc) => hc.habitId === habit.id && hc.date === habitDate
+            )}
+            date={habitDate}
+          />
         ))}
       </div>
     </section>

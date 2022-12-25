@@ -1,21 +1,41 @@
-import type { Habit } from "@prisma/client";
-import { useState } from "react";
+import type { Habit, HabitCompletion } from "@prisma/client";
+import { trpc } from "../../utils/trpc";
 
 type Props = {
   habit: Habit;
+  habitCompletion?: HabitCompletion;
+  date: string;
 };
 
-export const HabitItem: React.FC<Props> = ({ habit }) => {
-  const [completed, setCompleted] = useState(false);
+export const HabitItem: React.FC<Props> = ({
+  habit,
+  habitCompletion,
+  date,
+}) => {
+  const trpcUtils = trpc.useContext();
+  const { mutate } = trpc.habit.updateHabitCompletion.useMutation({
+    onSuccess: () => {
+      trpcUtils.habit.getAllCompletions.invalidate();
+    },
+  });
+  const completed = habitCompletion?.completed || false;
+
+  const updateHabitCompletion = () => {
+    mutate({
+      habitId: habit.id,
+      completed: !completed,
+      date,
+    });
+  };
 
   return (
     <button
       className="flex w-fit items-center gap-2"
-      onClick={() => setCompleted((c) => !c)}
+      onClick={updateHabitCompletion}
     >
       <div
         className={`h-5 w-5 rounded-full border-2 border-blue-500 bg-transparent ${
-          completed && "bg-blue-500"
+          completed && "border-blue-800 bg-blue-500"
         }`}
       ></div>
       <h4

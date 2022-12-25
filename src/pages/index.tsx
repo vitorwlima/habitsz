@@ -4,7 +4,12 @@ import { Habits } from "../components/Habits";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const { data: habits, isLoading } = trpc.habit.getAll.useQuery();
+  const { data: habits, isLoading: isHabitsLoading } =
+    trpc.habit.getAll.useQuery();
+  const { data: completions, isLoading: isCompletionsLoading } =
+    trpc.habit.getAllCompletions.useQuery();
+
+  const isLoading = isHabitsLoading || isCompletionsLoading;
 
   return (
     <>
@@ -23,10 +28,10 @@ const Home: NextPage = () => {
             Habit <span className="text-blue-400">Tracker</span>
           </h1>
 
-          {isLoading || habits === undefined ? (
+          {isLoading || habits === undefined || completions === undefined ? (
             <div>Loading...</div>
           ) : (
-            <Habits habits={habits} />
+            <Habits habits={habits} habitCompletions={completions} />
           )}
         </div>
       </main>

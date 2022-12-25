@@ -9,6 +9,12 @@ export const habitRouter = router({
     return habits || [];
   }),
 
+  getAllCompletions: publicProcedure.query(async () => {
+    const completions = await prisma?.habitCompletion.findMany();
+
+    return completions || [];
+  }),
+
   create: publicProcedure
     .input(
       z.object({
@@ -29,5 +35,45 @@ export const habitRouter = router({
       });
 
       return habit;
+    }),
+
+  updateHabitCompletion: publicProcedure
+    .input(
+      z.object({
+        habitId: z.string(),
+        date: z.string(),
+        completed: z.boolean(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const currentHabitCompletion = await prisma?.habitCompletion.findFirst({
+        where: {
+          habitId: input.habitId,
+          date: input.date,
+        },
+      });
+
+      if (currentHabitCompletion) {
+        const habitCompletion = await prisma?.habitCompletion.update({
+          where: {
+            id: currentHabitCompletion.id,
+          },
+          data: {
+            completed: input.completed,
+          },
+        });
+
+        return habitCompletion;
+      }
+
+      const habitCompletion = await prisma?.habitCompletion.create({
+        data: {
+          habitId: input.habitId,
+          completed: true,
+          date: input.date,
+        },
+      });
+
+      return habitCompletion;
     }),
 });

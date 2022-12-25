@@ -49,7 +49,7 @@ export const AddNewHabit: React.FC = () => {
     setHabit({ ...habit, frequency: options.map((o) => o.value).join(",") });
   };
 
-  const handleCreateHabit = async () => {
+  const handleCreateHabit = () => {
     mutate(habit);
   };
 
