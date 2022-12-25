@@ -32,9 +32,9 @@ export const Habits: React.FC<Props> = ({ habits, habitCompletions }) => {
           <button onClick={() => updateDay(-1)}>
             <Arrow className="h-6 w-6 rotate-180 fill-blue-500" />
           </button>
-          <h3 className="text-2xl font-semibold text-gray-100">
+          <h2 className="text-2xl font-semibold text-gray-100">
             {formattedDay}
-          </h3>
+          </h2>
           <button onClick={() => updateDay(1)}>
             <Arrow className="h-6 w-6 fill-blue-500" />
           </button>
@@ -42,17 +42,24 @@ export const Habits: React.FC<Props> = ({ habits, habitCompletions }) => {
 
         <AddNewHabit />
       </header>
+
       <div className="mt-16 flex flex-col gap-4">
-        {habitsForDay.map((habit) => (
-          <HabitItem
-            key={`${habit.id}-${formattedDay}`}
-            habit={habit}
-            habitCompletion={habitCompletions.find(
-              (hc) => hc.habitId === habit.id && hc.date === habitDate
-            )}
-            date={habitDate}
-          />
-        ))}
+        {habitsForDay.length > 0 ? (
+          habitsForDay.map((habit) => (
+            <HabitItem
+              key={`${habit.id}-${formattedDay}`}
+              habit={habit}
+              habitCompletion={habitCompletions.find(
+                (hc) => hc.habitId === habit.id && hc.date === habitDate
+              )}
+              date={habitDate}
+            />
+          ))
+        ) : (
+          <h3 className="text-center text-xl font-bold">
+            No habits set for this day :(
+          </h3>
+        )}
       </div>
     </section>
   );
