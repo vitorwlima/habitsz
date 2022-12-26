@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { prisma } from "../../db/client";
 import { publicProcedure, router } from "../trpc";
 
 export const habitRouter = router({
