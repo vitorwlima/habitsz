@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
-import Head from "next/head";
 import { signIn } from "next-auth/react";
+import Head from "next/head";
 import { Google } from "../assets/icons/Google";
 import { useAuthRoute } from "../hooks/useAuthRoute";
 

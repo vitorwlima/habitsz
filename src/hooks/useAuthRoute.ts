@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export const useAuthRoute = (authedRoute: boolean) => {
   const { status } = useSession();

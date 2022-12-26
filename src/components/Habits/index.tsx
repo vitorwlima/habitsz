@@ -1,7 +1,6 @@
 import type { Habit, HabitCompletion } from "@prisma/client";
+import { addDays, format } from "date-fns";
 import { useState } from "react";
-import { format, addDays } from "date-fns";
-
 import { Arrow } from "../../assets/icons/Arrow";
 import { AddNewHabit } from "../AddNewHabit";
 import { HabitItem } from "../HabitItem";

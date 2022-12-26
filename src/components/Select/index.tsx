@@ -1,5 +1,4 @@
-import ReactSelect from "react-select";
-import type { Props as ReactSelectProps } from "react-select";
+import ReactSelect, { type Props as ReactSelectProps } from "react-select";
 
 type Props = ReactSelectProps & {
   label: string;

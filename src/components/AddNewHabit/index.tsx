@@ -1,11 +1,10 @@
-import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import type { Habit } from "@prisma/client";
-
+import { useSession } from "next-auth/react";
+import { Fragment, useState } from "react";
+import { trpc } from "../../utils/trpc";
 import { Input } from "../Input";
 import { Select } from "../Select";
-import { trpc } from "../../utils/trpc";
-import { useSession } from "next-auth/react";
 
 const frequencyOptions = [
   { value: "Mon", label: "Monday" },
