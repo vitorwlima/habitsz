@@ -28,6 +28,7 @@ export const AddNewHabit: React.FC = () => {
     points: 0,
   });
   const { data: session } = useSession();
+  const userId = session?.user?.id ?? "";
 
   const trpcUtils = trpc.useContext();
   const { mutate } = trpc.habit.create.useMutation({
@@ -52,7 +53,7 @@ export const AddNewHabit: React.FC = () => {
   };
 
   const handleCreateHabit = () => {
-    mutate({ ...habit, userId: session!.user!.id });
+    mutate({ ...habit, userId });
   };
 
   return (
