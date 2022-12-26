@@ -5,6 +5,7 @@ import type { Habit } from "@prisma/client";
 import { Input } from "../Input";
 import { Select } from "../Select";
 import { trpc } from "../../utils/trpc";
+import { useSession } from "next-auth/react";
 
 const frequencyOptions = [
   { value: "Mon", label: "Monday" },
@@ -26,6 +27,7 @@ export const AddNewHabit: React.FC = () => {
     description: "",
     points: 0,
   });
+  const { data: session } = useSession();
 
   const trpcUtils = trpc.useContext();
   const { mutate } = trpc.habit.create.useMutation({
@@ -50,7 +52,7 @@ export const AddNewHabit: React.FC = () => {
   };
 
   const handleCreateHabit = () => {
-    mutate(habit);
+    mutate({ ...habit, userId: session!.user!.id });
   };
 
   return (

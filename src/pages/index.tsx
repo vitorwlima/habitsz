@@ -1,15 +1,15 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { Habits } from "../components/Habits";
-import { trpc } from "../utils/trpc";
+import { signIn } from "next-auth/react";
+import { Google } from "../assets/icons/Google";
+import { useAuthRoute } from "../hooks/useAuthRoute";
 
 const Home: NextPage = () => {
-  const { data: habits, isLoading: isHabitsLoading } =
-    trpc.habit.getAll.useQuery();
-  const { data: completions, isLoading: isCompletionsLoading } =
-    trpc.habit.getAllCompletions.useQuery();
+  useAuthRoute(false);
 
-  const isLoading = isHabitsLoading || isCompletionsLoading;
+  const handleLogin = () => {
+    signIn("google");
+  };
 
   return (
     <>
@@ -22,18 +22,36 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-blue-800 to-gray-900 text-white">
-        <div className="container flex max-w-[1200px] flex-col py-8">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+      <main className="flex h-screen flex-col items-center justify-between bg-gradient-to-b from-blue-800 to-gray-900 py-16 text-white">
+        <div className="container flex max-w-[1200px] flex-col items-center">
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-8xl">
             Habit <span className="text-blue-400">Tracker</span>
           </h1>
 
-          {isLoading || habits === undefined || completions === undefined ? (
-            <div>Loading...</div>
-          ) : (
-            <Habits habits={habits} habitCompletions={completions} />
-          )}
+          <p className="mt-20 text-xl font-semibold">
+            Track your habits and start building your dream life{" "}
+            <strong>step by step</strong>.
+          </p>
+
+          <button
+            className="mt-40 flex w-fit items-center justify-between gap-2 rounded-sm bg-white px-4 py-2"
+            onClick={handleLogin}
+          >
+            <Google />
+            <span className="text-lg text-gray-600">Start now with Google</span>
+          </button>
         </div>
+
+        <footer className="">
+          <span>Made by </span>
+          <a
+            href="https://github.com/vitorwlima"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <strong>vitorwlima</strong>
+          </a>
+        </footer>
       </main>
     </>
   );

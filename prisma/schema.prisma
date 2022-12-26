@@ -14,6 +14,8 @@ model Habit {
   description     String
   frequency       String
   points          Int
+  userId          String
+  user            User              @relation(fields: [userId], references: [id])
   HabitCompletion HabitCompletion[]
 
   createdAt DateTime @default(now())
@@ -23,10 +25,21 @@ model Habit {
 model HabitCompletion {
   id String @id @default(uuid())
 
-  habitId   String
-  habit     Habit   @relation(fields: [habitId], references: [id])
   date      String
   completed Boolean
+  habitId   String
+  habit     Habit   @relation(fields: [habitId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id String @id @default(uuid())
+
+  email String  @unique
+  name  String
+  Habit Habit[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -3,17 +3,39 @@ import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
 
 export const habitRouter = router({
-  getAll: publicProcedure.query(async () => {
-    const habits = await prisma?.habit.findMany();
+  getAll: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const habits = await prisma?.habit.findMany({
+        where: {
+          userId: input.userId,
+        },
+      });
 
-    return habits || [];
-  }),
+      return habits || [];
+    }),
 
-  getAllCompletions: publicProcedure.query(async () => {
-    const completions = await prisma?.habitCompletion.findMany();
+  getAllCompletions: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const completions = await prisma?.habitCompletion.findMany({
+        where: {
+          habit: {
+            userId: input.userId,
+          },
+        },
+      });
 
-    return completions || [];
-  }),
+      return completions || [];
+    }),
 
   create: publicProcedure
     .input(
@@ -22,6 +44,7 @@ export const habitRouter = router({
         description: z.string(),
         frequency: z.string(),
         points: z.number(),
+        userId: z.string(),
       })
     )
     .mutation(async ({ input }) => {
@@ -31,6 +54,7 @@ export const habitRouter = router({
           description: input.description,
           frequency: input.frequency,
           points: input.points,
+          userId: input.userId,
         },
       });
 
