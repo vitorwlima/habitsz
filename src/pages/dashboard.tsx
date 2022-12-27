@@ -1,7 +1,8 @@
 import { type NextPage } from "next";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { Habits } from "../components/Habits";
+import { UserMenu } from "../components/UserMenu";
 import { useAuthRoute } from "../hooks/useAuthRoute";
 import { trpc } from "../utils/trpc";
 
@@ -9,6 +10,7 @@ const Dashboard: NextPage = () => {
   const userStatus = useAuthRoute(true);
   const { data: session } = useSession();
   const userId = session?.user?.id ?? "";
+  const userName = session?.user?.name?.split(" ")[0] ?? "User";
 
   const { data: habits, isLoading: isHabitsLoading } =
     trpc.habit.getAll.useQuery({ userId });
@@ -37,12 +39,7 @@ const Dashboard: NextPage = () => {
               Habit <span className="text-blue-400">Tracker</span>
             </h1>
 
-            <button
-              className="rounded-sm bg-gray-800 px-4 py-2"
-              onClick={() => signOut()}
-            >
-              Logout
-            </button>
+            <UserMenu userName={userName} />
           </header>
 
           {isLoading || habits === undefined || completions === undefined ? (
