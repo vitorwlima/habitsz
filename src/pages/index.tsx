@@ -23,12 +23,12 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex h-screen flex-col items-center justify-between bg-gradient-to-b from-blue-800 to-gray-900 py-16 text-white">
-        <div className="container flex max-w-[1200px] flex-col items-center">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-8xl">
+        <div className="container flex max-w-[1200px] flex-col items-center px-2">
+          <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-8xl">
             Habit <span className="text-blue-400">Tracker</span>
           </h1>
 
-          <p className="mt-20 text-xl font-semibold">
+          <p className="mt-20 text-center font-semibold sm:text-xl">
             Track your habits and start building your dream life{" "}
             <strong>step by step</strong>.
           </p>
@@ -38,7 +38,9 @@ const Home: NextPage = () => {
             onClick={handleLogin}
           >
             <Google />
-            <span className="text-lg text-gray-600">Start now with Google</span>
+            <span className="text-gray-600 sm:text-lg">
+              Start now with Google
+            </span>
           </button>
         </div>
 
