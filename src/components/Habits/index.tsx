@@ -25,7 +25,7 @@ export const Habits: React.FC<Props> = ({ habits, habitCompletions }) => {
   };
 
   return (
-    <section className="mt-12 flex w-full flex-col">
+    <section className="flex w-full flex-col">
       <header className="flex flex-col-reverse justify-between gap-8 sm:flex-row sm:gap-0">
         <div className="flex items-center gap-4">
           <button onClick={() => updateDay(-1)}>

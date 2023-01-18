@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { Habits } from "../components/Habits";
-import { UserMenu } from "../components/UserMenu";
+import { Sidebar } from "../components/Sidebar";
 import { useAuthRoute } from "../hooks/useAuthRoute";
 import { trpc } from "../utils/trpc";
 
@@ -32,16 +32,9 @@ const Dashboard: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-blue-800 to-gray-900 text-white">
+      <main className="flex min-h-screen bg-gradient-to-b from-blue-800 to-gray-900 text-white">
+        <Sidebar userName={userName} />
         <div className="container flex max-w-[1200px] flex-col py-8 px-4">
-          <header className="flex items-center justify-between">
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-              Habit <span className="text-blue-400">Tracker</span>
-            </h1>
-
-            <UserMenu userName={userName} />
-          </header>
-
           {isLoading || habits === undefined || completions === undefined ? (
             <div>Loading...</div>
           ) : (
