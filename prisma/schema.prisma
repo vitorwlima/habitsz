@@ -11,9 +11,7 @@ model Habit {
   id String @id @default(uuid())
 
   title           String
-  description     String
   frequency       String
-  points          Int
   userId          String
   user            User              @relation(fields: [userId], references: [id])
   HabitCompletion HabitCompletion[]

@@ -1,10 +1,10 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Switch, Transition } from "@headlessui/react";
+import { CheckIcon } from "@heroicons/react/20/solid";
 import type { Habit } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { Fragment, useState } from "react";
 import { trpc } from "../../utils/trpc";
 import { Input } from "../Input";
-import { Select } from "../Select";
 
 const frequencyOptions = [
   { value: "Mon", label: "Monday" },
@@ -20,7 +20,7 @@ export const AddNewHabit: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [habit, setHabit] = useState({
     title: "",
-    frequency: "",
+    frequency: [] as string[],
   });
   const { data: session } = useSession();
   const userId = session?.user?.id ?? "";
@@ -42,13 +42,26 @@ export const AddNewHabit: React.FC = () => {
       setHabit({ ...habit, [name]: e.target.value });
     };
 
-  const onFrequencyChange = (options: typeof frequencyOptions) => {
-    setHabit({ ...habit, frequency: options.map((o) => o.value).join(",") });
+  const onFrequencyChange = (option: string) => {
+    setHabit((h) => ({
+      ...h,
+      frequency: h.frequency.includes(option)
+        ? h.frequency.filter((f) => f !== option)
+        : [...h.frequency, option],
+    }));
   };
 
   const handleCreateHabit = () => {
-    mutate({ ...habit, userId });
+    const habitToCreate = {
+      title: habit.title,
+      frequency: habit.frequency.join(","),
+      userId,
+    };
+
+    mutate(habitToCreate);
   };
+
+  console.log({ habit });
 
   return (
     <>
@@ -104,14 +117,40 @@ export const AddNewHabit: React.FC = () => {
                       onChange={onChange("title")}
                       value={habit.title}
                     />
-                    <Select
-                      options={frequencyOptions}
-                      label="Frequency"
-                      isMulti
-                      onChange={(values) =>
-                        onFrequencyChange(values as typeof frequencyOptions)
-                      }
-                    />
+                    <div>
+                      <label className="mb-1 block pr-4 font-semibold text-gray-500">
+                        Frequency
+                      </label>
+                      <div className="flex flex-col gap-1">
+                        {frequencyOptions.map((option) => {
+                          const checked = habit.frequency.includes(
+                            option.value
+                          );
+                          return (
+                            <div
+                              key={option.value}
+                              className="flex items-center gap-2"
+                            >
+                              <Switch
+                                checked={checked}
+                                onChange={() => onFrequencyChange(option.value)}
+                                className={`${
+                                  checked ? "bg-green-500" : "bg-gray-200"
+                                }
+          grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 border-gray-100 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                              >
+                                <CheckIcon
+                                  className={`h-5 w-5 text-white transition-all ${
+                                    !checked && "opacity-0"
+                                  }`}
+                                />
+                              </Switch>
+                              <span>{option.label}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
 
                   <div className="mt-8 flex justify-between">
