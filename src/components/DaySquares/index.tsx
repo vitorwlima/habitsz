@@ -34,7 +34,7 @@ export const DaySquares: React.FC<Props> = ({ habits, habitCompletions }) => {
           <span>{day}</span>
         </div>
       ))}
-      {allDays.map((day) => {
+      {allDays.map((day, index) => {
         const currDayHabits = habits.filter((habit) =>
           habit.frequency.split(",").includes(format(day, "eee"))
         );
@@ -42,6 +42,13 @@ export const DaySquares: React.FC<Props> = ({ habits, habitCompletions }) => {
           (habitCompletion) =>
             habitCompletion.date === format(day, "yyyy-MM-dd")
         );
+        const quadrant: {
+          x: "left" | "right";
+          y: "top" | "bottom";
+        } = {
+          x: index < allDays.length / 2 ? "left" : "right",
+          y: index % 7 < 3 ? "top" : "bottom",
+        };
         return (
           <DaySingleSquare
             key={day.toString()}
@@ -49,6 +56,7 @@ export const DaySquares: React.FC<Props> = ({ habits, habitCompletions }) => {
             habits={currDayHabits}
             habitCompletions={currDayCompletions}
             squareSize={squareSize}
+            quadrant={quadrant}
           />
         );
       })}
