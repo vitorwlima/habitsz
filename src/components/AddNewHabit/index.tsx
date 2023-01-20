@@ -1,10 +1,11 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Switch, Transition } from "@headlessui/react";
+import { CheckIcon } from "@heroicons/react/20/solid";
 import type { Habit } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import type { FormEvent } from "react";
 import { Fragment, useState } from "react";
 import { trpc } from "../../utils/trpc";
 import { Input } from "../Input";
-import { Select } from "../Select";
 
 const frequencyOptions = [
   { value: "Mon", label: "Monday" },
@@ -18,22 +19,23 @@ const frequencyOptions = [
 
 export const AddNewHabit: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [habit, setHabit] = useState<
-    Pick<Habit, "title" | "frequency" | "description" | "points">
-  >({
+  const [habit, setHabit] = useState({
     title: "",
-    frequency: "",
-    description: "",
-    points: 0,
+    frequency: [] as string[],
   });
   const { data: session } = useSession();
   const userId = session?.user?.id ?? "";
+
+  const handleCloseForm = () => {
+    setIsOpen(false);
+    setHabit({ title: "", frequency: [] });
+  };
 
   const trpcUtils = trpc.useContext();
   const { mutate } = trpc.habit.create.useMutation({
     onSuccess: () => {
       trpcUtils.habit.getAll.invalidate();
-      setIsOpen(false);
+      handleCloseForm();
       console.log("Successfully created");
     },
     onError: (err) => {
@@ -43,16 +45,28 @@ export const AddNewHabit: React.FC = () => {
 
   const onChange =
     (name: keyof Habit) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = name === "points" ? Number(e.target.value) : e.target.value;
-      setHabit({ ...habit, [name]: value });
+      setHabit({ ...habit, [name]: e.target.value });
     };
 
-  const onFrequencyChange = (options: typeof frequencyOptions) => {
-    setHabit({ ...habit, frequency: options.map((o) => o.value).join(",") });
+  const onFrequencyChange = (option: string) => {
+    setHabit((h) => ({
+      ...h,
+      frequency: h.frequency.includes(option)
+        ? h.frequency.filter((f) => f !== option)
+        : [...h.frequency, option],
+    }));
   };
 
-  const handleCreateHabit = () => {
-    mutate({ ...habit, userId });
+  const handleCreateHabit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const habitToCreate = {
+      title: habit.title,
+      frequency: habit.frequency.join(","),
+      userId,
+    };
+
+    mutate(habitToCreate);
   };
 
   return (
@@ -65,11 +79,7 @@ export const AddNewHabit: React.FC = () => {
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => setIsOpen(false)}
-        >
+        <Dialog as="div" className="relative z-10" onClose={handleCloseForm}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -101,56 +111,70 @@ export const AddNewHabit: React.FC = () => {
                     Add new habit
                   </Dialog.Title>
 
-                  <div className="mt-4 flex flex-col gap-4">
-                    <Input
-                      label="Title"
-                      name="title"
-                      placeholder="My habit"
-                      onChange={onChange("title")}
-                      value={habit.title}
-                    />
-                    <Input
-                      label="Description"
-                      name="description"
-                      placeholder="My habit description"
-                      onChange={onChange("description")}
-                      value={habit.description}
-                    />
-                    <Select
-                      options={frequencyOptions}
-                      label="Frequency"
-                      isMulti
-                      onChange={(values) =>
-                        onFrequencyChange(values as typeof frequencyOptions)
-                      }
-                    />
-                    <Input
-                      label="Points on completion"
-                      name="points"
-                      type="number"
-                      onChange={onChange("points")}
-                      value={habit.points}
-                      min={0}
-                    />
-                  </div>
+                  <form onSubmit={handleCreateHabit}>
+                    <div className="mt-4 flex flex-col gap-4">
+                      <Input
+                        label="Title"
+                        name="title"
+                        placeholder="My habit"
+                        onChange={onChange("title")}
+                        value={habit.title}
+                      />
+                      <div>
+                        <label className="mb-1 block pr-4 font-semibold text-gray-500">
+                          Frequency
+                        </label>
+                        <div className="flex flex-col gap-1">
+                          {frequencyOptions.map((option) => {
+                            const checked = habit.frequency.includes(
+                              option.value
+                            );
+                            return (
+                              <div
+                                key={option.value}
+                                className="flex items-center gap-2"
+                              >
+                                <Switch
+                                  checked={checked}
+                                  onChange={() =>
+                                    onFrequencyChange(option.value)
+                                  }
+                                  className={`${
+                                    checked ? "bg-green-500" : "bg-gray-200"
+                                  }
+          grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 border-gray-100 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                                >
+                                  <CheckIcon
+                                    className={`h-5 w-5 text-white transition-all ${
+                                      !checked && "opacity-0"
+                                    }`}
+                                  />
+                                </Switch>
+                                <span>{option.label}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
 
-                  <div className="mt-8 flex justify-between">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-red-300 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Cancel
-                    </button>
+                    <div className="mt-8 flex justify-between">
+                      <button
+                        type="button"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-red-300 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        onClick={() => handleCloseForm()}
+                      >
+                        Cancel
+                      </button>
 
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500  focus-visible:ring-offset-2"
-                      onClick={() => handleCreateHabit()}
-                    >
-                      Create
-                    </button>
-                  </div>
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500  focus-visible:ring-offset-2"
+                      >
+                        Create
+                      </button>
+                    </div>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
