@@ -2,6 +2,7 @@ import { Dialog, Switch, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import type { Habit } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import type { FormEvent } from "react";
 import { Fragment, useState } from "react";
 import { trpc } from "../../utils/trpc";
 import { Input } from "../Input";
@@ -56,7 +57,9 @@ export const AddNewHabit: React.FC = () => {
     }));
   };
 
-  const handleCreateHabit = () => {
+  const handleCreateHabit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const habitToCreate = {
       title: habit.title,
       frequency: habit.frequency.join(","),
@@ -65,8 +68,6 @@ export const AddNewHabit: React.FC = () => {
 
     mutate(habitToCreate);
   };
-
-  console.log({ habit });
 
   return (
     <>
@@ -110,67 +111,70 @@ export const AddNewHabit: React.FC = () => {
                     Add new habit
                   </Dialog.Title>
 
-                  <div className="mt-4 flex flex-col gap-4">
-                    <Input
-                      label="Title"
-                      name="title"
-                      placeholder="My habit"
-                      onChange={onChange("title")}
-                      value={habit.title}
-                    />
-                    <div>
-                      <label className="mb-1 block pr-4 font-semibold text-gray-500">
-                        Frequency
-                      </label>
-                      <div className="flex flex-col gap-1">
-                        {frequencyOptions.map((option) => {
-                          const checked = habit.frequency.includes(
-                            option.value
-                          );
-                          return (
-                            <div
-                              key={option.value}
-                              className="flex items-center gap-2"
-                            >
-                              <Switch
-                                checked={checked}
-                                onChange={() => onFrequencyChange(option.value)}
-                                className={`${
-                                  checked ? "bg-green-500" : "bg-gray-200"
-                                }
-          grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 border-gray-100 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                  <form onSubmit={handleCreateHabit}>
+                    <div className="mt-4 flex flex-col gap-4">
+                      <Input
+                        label="Title"
+                        name="title"
+                        placeholder="My habit"
+                        onChange={onChange("title")}
+                        value={habit.title}
+                      />
+                      <div>
+                        <label className="mb-1 block pr-4 font-semibold text-gray-500">
+                          Frequency
+                        </label>
+                        <div className="flex flex-col gap-1">
+                          {frequencyOptions.map((option) => {
+                            const checked = habit.frequency.includes(
+                              option.value
+                            );
+                            return (
+                              <div
+                                key={option.value}
+                                className="flex items-center gap-2"
                               >
-                                <CheckIcon
-                                  className={`h-5 w-5 text-white transition-all ${
-                                    !checked && "opacity-0"
-                                  }`}
-                                />
-                              </Switch>
-                              <span>{option.label}</span>
-                            </div>
-                          );
-                        })}
+                                <Switch
+                                  checked={checked}
+                                  onChange={() =>
+                                    onFrequencyChange(option.value)
+                                  }
+                                  className={`${
+                                    checked ? "bg-green-500" : "bg-gray-200"
+                                  }
+          grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 border-gray-100 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                                >
+                                  <CheckIcon
+                                    className={`h-5 w-5 text-white transition-all ${
+                                      !checked && "opacity-0"
+                                    }`}
+                                  />
+                                </Switch>
+                                <span>{option.label}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="mt-8 flex justify-between">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-red-300 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Cancel
-                    </button>
+                    <div className="mt-8 flex justify-between">
+                      <button
+                        type="button"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-red-300 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        onClick={() => handleCloseForm()}
+                      >
+                        Cancel
+                      </button>
 
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500  focus-visible:ring-offset-2"
-                      onClick={() => handleCreateHabit()}
-                    >
-                      Create
-                    </button>
-                  </div>
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500  focus-visible:ring-offset-2"
+                      >
+                        Create
+                      </button>
+                    </div>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
