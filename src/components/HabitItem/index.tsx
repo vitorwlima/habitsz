@@ -35,7 +35,7 @@ export const HabitItem: React.FC<Props> = ({
       onClick={updateHabitCompletion}
     >
       <div
-        className={`h-5 w-5 rounded-md border-2 border-blue-500 bg-transparent ${
+        className={`aspect-square h-5 w-5 rounded-md border-2 border-blue-500 bg-transparent ${
           completed && "border-transparent bg-blue-500"
         }`}
       >
