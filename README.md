@@ -50,6 +50,10 @@ $ npm run dev
 ## 🧩 Contributing
 
 ```bash
+# Fork the project by clicking on the Fork button on the top of this page
+
+# Get the project running as described in the Running Locally section
+
 # Create a feature branch based on the issue id
 $ git checkout -b feature/issue-id
 
