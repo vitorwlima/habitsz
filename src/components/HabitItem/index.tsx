@@ -1,3 +1,4 @@
+import { CheckIcon } from "@heroicons/react/20/solid";
 import type { Habit, HabitCompletion } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
 
@@ -34,10 +35,12 @@ export const HabitItem: React.FC<Props> = ({
       onClick={updateHabitCompletion}
     >
       <div
-        className={`h-5 w-5 rounded-full border-2 border-blue-500 bg-transparent ${
-          completed && "border-blue-800 bg-blue-500"
+        className={`h-5 w-5 rounded-md border-2 border-blue-500 bg-transparent ${
+          completed && "border-transparent bg-blue-500"
         }`}
-      ></div>
+      >
+        {!!completed && <CheckIcon />}
+      </div>
       <h4
         className={`text-lg font-semibold ${
           completed && "line-through opacity-50"

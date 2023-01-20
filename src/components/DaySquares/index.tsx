@@ -31,7 +31,7 @@ export const DaySquares: React.FC<Props> = ({ habits, habitCompletions }) => {
       ))}
       {allDays.map((day) => {
         const currDayHabits = habits.filter((habit) =>
-          habit.frequency.split(";").includes(format(day, "eee"))
+          habit.frequency.split(",").includes(format(day, "eee"))
         );
         const currDayCompletions = habitCompletions.filter(
           (habitCompletion) =>
