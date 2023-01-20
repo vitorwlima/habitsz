@@ -32,9 +32,9 @@ const Dashboard: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex min-h-screen bg-gradient-to-b from-blue-800 to-gray-900 text-white">
+      <main className="flex min-h-screen bg-neutral-900 text-white">
         <Sidebar userName={userName} />
-        <div className="container flex max-w-[1200px] flex-col py-8 px-4">
+        <div className="container mx-auto flex max-w-[1000px] flex-col p-8">
           {isLoading || habits === undefined || completions === undefined ? (
             <div>Loading...</div>
           ) : (
