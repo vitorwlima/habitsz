@@ -1,28 +1,63 @@
-# Create T3 App
+<h1 align="center">Habit Tracker</h1>
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+<p align="center">
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/vitorwlima/habit-tracker?color=56BEB8">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/vitorwlima/habit-tracker?color=56BEB8">
+  <img alt="Github issues" src="https://img.shields.io/github/issues/vitorwlima/habit-tracker?color=56BEB8" />
+  <img alt="Github forks" src="https://img.shields.io/github/forks/vitorwlima/habit-tracker?color=56BEB8" />
+  <img alt="Github stars" src="https://img.shields.io/github/stars/vitorwlima/habit-tracker?color=56BEB8" />
+</p>
 
-## What's next? How do I make an app with this?
+<br>
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## 🎯 About
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Track your habits to build an awesome life.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+![Image](https://user-images.githubusercontent.com/82615423/213798037-ccfd9cff-514c-4fcd-b007-854ad4a7fcc8.png)
 
-## Learn More
+<!---
+Todo: Add more info about the project with screenshots
+-->
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## 🚀 Technologies
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+This project was built with [T3-stack](https://create.t3.gg/).
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## 💻 Running Locally
 
-## How do I deploy this?
+> Before starting 🏁, you need to have [Git](https://git-scm.com) and [Node](https://nodejs.org/en/) installed.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```bash
+# Clone this project
+$ git clone https://github.com/vitorwlima/habit-tracker
+
+# Access
+$ cd habit-tracker
+
+# Install dependencies
+$ npm install
+
+# Setup environment variables
+$ cp .env.example .env
+
+# Run the project
+$ npm run dev
+
+# The server will initialize in the <http://localhost:3000>
+```
+
+## 🧩 Contributing
+
+```bash
+# Create a feature branch based on the issue id
+$ git checkout -b feature/issue-id
+
+# Commit your changes following https://www.conventionalcommits.org/en/v1.0.0/
+$ git commit -m "feat: add a new feature"
+
+# Push your branch
+$ git push origin feature/issue-id
+
+# Open a pull request to "main" with a description of your work
+```
