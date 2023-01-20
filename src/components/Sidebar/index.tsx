@@ -1,31 +1,29 @@
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 import { signOut } from "next-auth/react";
-import { useState } from "react";
 import { Title } from "../Title";
 
 type Props = {
   userName: string;
+  isOpen: boolean;
+  switchIsOpen: () => void;
 };
 
-export const Sidebar: React.FC<Props> = ({ userName }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+export const Sidebar: React.FC<Props> = ({
+  userName,
+  isOpen,
+  switchIsOpen,
+}) => {
   return (
     <>
-      <Bars3Icon
-        className="m-4 mt-8 flex h-8 w-8 lg:hidden"
-        onClick={() => setIsOpen((o) => !o)}
-      />
       <div
         className={`${
           isOpen ? "translate-x-0" : "translate-x-[100vw]"
         } absolute z-10 flex h-screen w-screen flex-col justify-between bg-gradient-to-b from-blue-600 to-gray-900 py-8 px-4 transition-all lg:static lg:w-[300px] lg:translate-x-0`}
       >
         <header className="flex items-center justify-between lg:justify-center">
-          <XMarkIcon
-            className="flex h-8 w-8 lg:hidden"
-            onClick={() => setIsOpen((o) => !o)}
-          />
+          <button onClick={() => switchIsOpen()} className="lg:hidden">
+            <XMarkIcon className="flex h-8 w-8" />
+          </button>
           <Title className="text-center" />
         </header>
 
