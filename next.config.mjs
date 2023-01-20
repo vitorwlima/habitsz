@@ -13,5 +13,15 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  experimental: {
+    fontLoaders: [
+      {
+        loader: "@next/font/google",
+        options: {
+          families: ["Inter", "Nunito"],
+        },
+      },
+    ],
+  },
 };
 export default config;

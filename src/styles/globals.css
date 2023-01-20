@@ -6,4 +6,12 @@
   .grid-rows-7 {
     grid-template-rows: repeat(7, minmax(0, 1fr));
   }
+
+  .font-nunito {
+    font-family: "Nunito", sans-serif;
+  }
+}
+
+body {
+  font-family: "Inter", sans-serif;
 }
