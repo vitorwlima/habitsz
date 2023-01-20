@@ -32,7 +32,7 @@ const Dashboard: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Habit Tracker</title>
+        <title>testando legal kkk</title>
         <meta
           name="description"
           content="Track your habits to build an awesome life."
