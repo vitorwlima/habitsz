@@ -56,7 +56,7 @@ export const DaySingleSquare: React.FC<Props> = ({
       >
         <Popover.Panel className="absolute -right-16 z-10 w-48 rounded-lg bg-zinc-800 p-4 lg:right-4 lg:w-96">
           <p className="font-semibold text-zinc-200">{dayName}</p>
-          <strong className="my-2 block text-lg">
+          <strong className="mt-2 mb-4 block text-xl">
             {date.toLocaleDateString()}
           </strong>
           <div className="relative h-2 rounded-full bg-gray-500">
