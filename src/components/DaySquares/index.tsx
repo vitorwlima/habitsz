@@ -24,7 +24,7 @@ export const DaySquares: React.FC<Props> = ({ habits, habitCompletions }) => {
       {days.map((day, i) => (
         <div
           key={day + i}
-          className="grid h-12 w-12 place-items-center font-bold text-blue-200"
+          className="grid h-12 w-12 place-items-center font-bold text-white"
         >
           <span>{day}</span>
         </div>
