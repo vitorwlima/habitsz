@@ -41,9 +41,7 @@ export const habitRouter = router({
     .input(
       z.object({
         title: z.string(),
-        description: z.string(),
         frequency: z.string(),
-        points: z.number(),
         userId: z.string(),
       })
     )
@@ -51,9 +49,7 @@ export const habitRouter = router({
       const habit = await prisma?.habit.create({
         data: {
           title: input.title,
-          description: input.description,
           frequency: input.frequency,
-          points: input.points,
           userId: input.userId,
         },
       });

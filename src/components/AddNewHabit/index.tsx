@@ -18,13 +18,9 @@ const frequencyOptions = [
 
 export const AddNewHabit: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [habit, setHabit] = useState<
-    Pick<Habit, "title" | "frequency" | "description" | "points">
-  >({
+  const [habit, setHabit] = useState({
     title: "",
     frequency: "",
-    description: "",
-    points: 0,
   });
   const { data: session } = useSession();
   const userId = session?.user?.id ?? "";
@@ -43,8 +39,7 @@ export const AddNewHabit: React.FC = () => {
 
   const onChange =
     (name: keyof Habit) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = name === "points" ? Number(e.target.value) : e.target.value;
-      setHabit({ ...habit, [name]: value });
+      setHabit({ ...habit, [name]: e.target.value });
     };
 
   const onFrequencyChange = (options: typeof frequencyOptions) => {
@@ -109,13 +104,6 @@ export const AddNewHabit: React.FC = () => {
                       onChange={onChange("title")}
                       value={habit.title}
                     />
-                    <Input
-                      label="Description"
-                      name="description"
-                      placeholder="My habit description"
-                      onChange={onChange("description")}
-                      value={habit.description}
-                    />
                     <Select
                       options={frequencyOptions}
                       label="Frequency"
@@ -123,14 +111,6 @@ export const AddNewHabit: React.FC = () => {
                       onChange={(values) =>
                         onFrequencyChange(values as typeof frequencyOptions)
                       }
-                    />
-                    <Input
-                      label="Points on completion"
-                      name="points"
-                      type="number"
-                      onChange={onChange("points")}
-                      value={habit.points}
-                      min={0}
                     />
                   </div>
 
