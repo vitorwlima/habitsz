@@ -8,12 +8,14 @@ type Props = {
   habits: Habit[];
   habitCompletions: HabitCompletion[];
   date: Date;
+  squareSize: string;
 };
 
 export const DaySingleSquare: React.FC<Props> = ({
   habits,
   habitCompletions,
   date,
+  squareSize,
 }) => {
   const habitsAmount = habits.length;
   const completedHabitsAmount = habitCompletions.filter(
@@ -40,7 +42,7 @@ export const DaySingleSquare: React.FC<Props> = ({
     <Popover className="relative">
       <Popover.Button className="grid place-items-center">
         <div
-          className={`${squareColor} h-12 w-12 rounded-md border border-blue-900`}
+          className={`${squareColor} ${squareSize} rounded-md border border-blue-900`}
         />
       </Popover.Button>
       <Transition

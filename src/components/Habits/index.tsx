@@ -10,7 +10,7 @@ type Props = {
 export const Habits: React.FC<Props> = ({ habits, habitCompletions }) => {
   return (
     <section className="flex h-full w-full flex-col justify-center">
-      <header className="flex flex-col-reverse justify-between gap-8 sm:flex-row sm:gap-0">
+      <header className="flex items-center justify-between">
         <span className="font-bold">Last 70 days</span>
 
         <AddNewHabit />
