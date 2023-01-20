@@ -25,11 +25,16 @@ export const AddNewHabit: React.FC = () => {
   const { data: session } = useSession();
   const userId = session?.user?.id ?? "";
 
+  const handleCloseForm = () => {
+    setIsOpen(false);
+    setHabit({ title: "", frequency: [] });
+  };
+
   const trpcUtils = trpc.useContext();
   const { mutate } = trpc.habit.create.useMutation({
     onSuccess: () => {
       trpcUtils.habit.getAll.invalidate();
-      setIsOpen(false);
+      handleCloseForm();
       console.log("Successfully created");
     },
     onError: (err) => {
@@ -73,11 +78,7 @@ export const AddNewHabit: React.FC = () => {
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => setIsOpen(false)}
-        >
+        <Dialog as="div" className="relative z-10" onClose={handleCloseForm}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
