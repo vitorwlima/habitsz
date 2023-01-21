@@ -31,10 +31,7 @@ export const HabitItem: React.FC<Props> = ({
   };
 
   return (
-    <button
-      className="flex w-fit items-center gap-2"
-      onClick={updateHabitCompletion}
-    >
+    <button className="flex gap-2" onClick={updateHabitCompletion}>
       <Switch
         checked={completed}
         className={`${completed ? "bg-blue-500" : "bg-transparent"}
@@ -46,7 +43,11 @@ export const HabitItem: React.FC<Props> = ({
           }`}
         />
       </Switch>
-      <h4 className={`text-lg ${completed && "opacity-50"}`}>{habit.title}</h4>
+      <span
+        className={`text-left text-lg leading-6 ${completed && "opacity-50"}`}
+      >
+        {habit.title}
+      </span>
     </button>
   );
 };

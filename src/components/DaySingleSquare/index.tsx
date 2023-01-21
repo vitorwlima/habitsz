@@ -74,7 +74,7 @@ export const DaySingleSquare: React.FC<Props> = ({
               style={{ width: `${percentageDone * 100}%` }}
             />
           </div>
-          <div className="mt-4 flex flex-col gap-1 text-lg">
+          <div className="mt-4 flex flex-col gap-2 text-lg">
             {habits.length
               ? habits.map((habit) => (
                   <HabitItem
