@@ -1,3 +1,4 @@
+import { Switch } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import type { Habit, HabitCompletion } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
@@ -34,20 +35,18 @@ export const HabitItem: React.FC<Props> = ({
       className="flex w-fit items-center gap-2"
       onClick={updateHabitCompletion}
     >
-      <div
-        className={`aspect-square h-5 w-5 rounded-md border-2 border-blue-500 bg-transparent ${
-          completed && "border-transparent bg-blue-500"
-        }`}
+      <Switch
+        checked={completed}
+        className={`${completed ? "bg-blue-500" : "bg-transparent"}
+          grid h-6 w-6 shrink-0 place-items-center rounded-lg border-2 border-gray-600 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
       >
-        {!!completed && <CheckIcon />}
-      </div>
-      <h4
-        className={`text-lg font-semibold ${
-          completed && "line-through opacity-50"
-        }`}
-      >
-        {habit.title}
-      </h4>
+        <CheckIcon
+          className={`h-4 w-4 text-white transition-all ${
+            !completed && "opacity-0"
+          }`}
+        />
+      </Switch>
+      <h4 className={`text-lg ${completed && "opacity-50"}`}>{habit.title}</h4>
     </button>
   );
 };

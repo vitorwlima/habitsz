@@ -49,7 +49,7 @@ export const DaySingleSquare: React.FC<Props> = ({
     <Popover className="relative">
       <Popover.Button className="grid place-items-center">
         <div
-          className={`${squareColor} ${squareSize} rounded-md border border-blue-900`}
+          className={`${squareColor} ${squareSize} rounded-md border border-blue-900 transition-colors`}
         />
       </Popover.Button>
       <Transition
@@ -62,19 +62,19 @@ export const DaySingleSquare: React.FC<Props> = ({
         leaveTo="opacity-0 translate-y-1"
       >
         <Popover.Panel
-          className={`${topBottom} ${leftRight} absolute z-10 w-48 rounded-lg bg-zinc-800 p-4 lg:right-4 lg:w-96`}
+          className={`${topBottom} ${leftRight} absolute z-10 w-48 rounded-lg bg-zinc-800 p-4 lg:w-96`}
         >
-          <p className="font-semibold text-zinc-200">{dayName}</p>
-          <strong className="mt-2 mb-4 block text-xl">
+          <p className="text-zinc-200">{dayName}</p>
+          <strong className="mt-1 mb-4 block text-xl">
             {date.toLocaleDateString()}
           </strong>
           <div className="relative h-2 rounded-full bg-gray-500">
             <div
-              className="absolute left-0 h-2 rounded-full bg-blue-600"
+              className="absolute left-0 h-2 rounded-full bg-blue-500 transition-all"
               style={{ width: `${percentageDone * 100}%` }}
             />
           </div>
-          <div className="mt-4 text-lg font-bold">
+          <div className="mt-4 flex flex-col gap-1 text-lg">
             {habits.length
               ? habits.map((habit) => (
                   <HabitItem

@@ -1,5 +1,5 @@
 import type { Habit, HabitCompletion } from "@prisma/client";
-import { addDays, format } from "date-fns";
+import { addDays, format, startOfDay } from "date-fns";
 import { useWindowSize } from "usehooks-ts";
 import { DaySingleSquare } from "../DaySingleSquare";
 
@@ -17,7 +17,7 @@ export const DaySquares: React.FC<Props> = ({ habits, habitCompletions }) => {
   const squareSize =
     width < 660 ? "w-8 h-8" : width < 1200 ? "w-10 h-10" : "w-12 h-12";
 
-  const today = new Date();
+  const today = startOfDay(new Date());
   const weekDay = today.getDay();
   const daysDisplayed = Math.floor(closestDaysDisplayed / 7) * 7 + 1 + weekDay;
   const allDays = Array.from({ length: daysDisplayed }, (_, i) =>
