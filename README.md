@@ -1,11 +1,11 @@
-<h1 align="center">Habit Tracker</h1>
+<h1 align="center">habitsz</h1>
 
 <p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/vitorwlima/habit-tracker?color=56BEB8">
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/vitorwlima/habit-tracker?color=56BEB8">
-  <img alt="Github issues" src="https://img.shields.io/github/issues/vitorwlima/habit-tracker?color=56BEB8" />
-  <img alt="Github forks" src="https://img.shields.io/github/forks/vitorwlima/habit-tracker?color=56BEB8" />
-  <img alt="Github stars" src="https://img.shields.io/github/stars/vitorwlima/habit-tracker?color=56BEB8" />
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/vitorwlima/habitsz?color=56BEB8">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/vitorwlima/habitsz?color=56BEB8">
+  <img alt="Github issues" src="https://img.shields.io/github/issues/vitorwlima/habitsz?color=56BEB8" />
+  <img alt="Github forks" src="https://img.shields.io/github/forks/vitorwlima/habitsz?color=56BEB8" />
+  <img alt="Github stars" src="https://img.shields.io/github/stars/vitorwlima/habitsz?color=56BEB8" />
 </p>
 
 <br>
@@ -14,7 +14,7 @@
 
 Track your habits to build an awesome life.
 
-![Image](https://user-images.githubusercontent.com/82615423/213798037-ccfd9cff-514c-4fcd-b007-854ad4a7fcc8.png)
+<img width="1508" alt="image" src="https://user-images.githubusercontent.com/82615423/214132763-8b930d2d-a816-4727-b2f9-950fc97430e5.png">
 
 <!---
 Todo: Add more info about the project with screenshots
@@ -30,10 +30,10 @@ This project was built with [T3-stack](https://create.t3.gg/).
 
 ```bash
 # Clone this project
-$ git clone https://github.com/vitorwlima/habit-tracker
+$ git clone https://github.com/vitorwlima/habitsz
 
 # Access
-$ cd habit-tracker
+$ cd habitsz
 
 # Install dependencies
 $ npm install

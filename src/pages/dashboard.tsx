@@ -1,7 +1,6 @@
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
-import Head from "next/head";
 import { useState } from "react";
 import { Habits } from "../components/Habits";
 import { Sidebar } from "../components/Sidebar";
@@ -30,39 +29,28 @@ const Dashboard: NextPage = () => {
   if (userStatus === "loading") return null;
 
   return (
-    <>
-      <Head>
-        <title>Habit Tracker</title>
-        <meta
-          name="description"
-          content="Track your habits to build an awesome life."
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <main className="flex min-h-screen flex-col bg-neutral-900 text-white lg:flex-row">
+      <header className="mb-8 flex items-center justify-between p-8 lg:hidden">
+        <button onClick={() => switchIsOpen()}>
+          <Bars3Icon className="flex h-8 w-8" />
+        </button>
 
-      <main className="flex min-h-screen flex-col bg-neutral-900 text-white lg:flex-row">
-        <header className="mb-8 flex items-center justify-between p-8 lg:hidden">
-          <button onClick={() => switchIsOpen()}>
-            <Bars3Icon className="flex h-8 w-8" />
-          </button>
+        <Title />
+      </header>
 
-          <Title />
-        </header>
-
-        <Sidebar
-          userName={userName}
-          isOpen={isSidebarOpen}
-          switchIsOpen={switchIsOpen}
-        />
-        <div className="container mx-auto flex max-w-[1000px] flex-col p-8">
-          {isLoading || habits === undefined || completions === undefined ? (
-            <div>Loading...</div>
-          ) : (
-            <Habits habits={habits} habitCompletions={completions} />
-          )}
-        </div>
-      </main>
-    </>
+      <Sidebar
+        userName={userName}
+        isOpen={isSidebarOpen}
+        switchIsOpen={switchIsOpen}
+      />
+      <div className="container mx-auto flex max-w-[1000px] flex-col p-8">
+        {isLoading || habits === undefined || completions === undefined ? (
+          <div>Loading...</div>
+        ) : (
+          <Habits habits={habits} habitCompletions={completions} />
+        )}
+      </div>
+    </main>
   );
 };
 
