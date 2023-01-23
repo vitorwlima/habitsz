@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import { signIn } from "next-auth/react";
 import Head from "next/head";
 import { Google } from "../assets/icons/Google";
+import { Title } from "../components/Title";
 import { useAuthRoute } from "../hooks/useAuthRoute";
 
 const Home: NextPage = () => {
@@ -24,9 +25,7 @@ const Home: NextPage = () => {
 
       <main className="flex h-screen flex-col items-center justify-between bg-gradient-to-b from-blue-800 to-gray-900 py-16 text-white">
         <div className="container flex max-w-[1200px] flex-col items-center px-2">
-          <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-8xl">
-            Habit <span className="text-blue-400">Tracker</span>
-          </h1>
+          <Title className="sm:text-6xl" />
 
           <p className="mt-20 text-center font-semibold sm:text-xl">
             Track your habits and start building your dream life{" "}
