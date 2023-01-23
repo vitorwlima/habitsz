@@ -37,7 +37,7 @@ const Dashboard: NextPage = () => {
           name="description"
           content="Track your habits to build an awesome life."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
 
       <main className="flex min-h-screen flex-col bg-neutral-900 text-white lg:flex-row">
