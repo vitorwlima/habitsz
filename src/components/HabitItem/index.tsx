@@ -23,20 +23,21 @@ export const HabitItem: React.FC<Props> = ({
   });
   const { mutate } = trpc.habit.updateHabitCompletion.useMutation({
     onSuccess: () => {
-      trpcUtils.habit.getAllCompletions.setData(
-        { userId },
-        allCompletions?.map((c) =>
-          c.habitId === habit.id && c.date === date
-            ? { ...c, completed: !c.completed }
-            : c
-        ) ?? []
-      );
       trpcUtils.habit.getAllCompletions.invalidate();
     },
   });
   const completed = habitCompletion?.completed || false;
 
   const updateHabitCompletion = () => {
+    trpcUtils.habit.getAllCompletions.setData(
+      { userId },
+      allCompletions?.map((c) =>
+        c.habitId === habit.id && c.date === date
+          ? { ...c, completed: !c.completed }
+          : c
+      ) ?? []
+    );
+
     mutate({
       habitId: habit.id,
       completed: !completed,
