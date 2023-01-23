@@ -19,7 +19,7 @@ const Home: NextPage = () => {
           name="description"
           content="Track your habits to build an awesome life."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
 
       <main className="flex h-screen flex-col items-center justify-between bg-gradient-to-b from-blue-800 to-gray-900 py-16 text-white">
