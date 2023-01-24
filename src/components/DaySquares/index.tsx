@@ -1,29 +1,22 @@
 import type { Habit, HabitCompletion } from "@prisma/client";
-import { addDays, format, startOfDay } from "date-fns";
-import { useWindowSize } from "usehooks-ts";
+import { format } from "date-fns";
 import { DaySingleSquare } from "../DaySingleSquare";
 
 type Props = {
   habits: Habit[];
   habitCompletions: HabitCompletion[];
+  allDays: Date[];
+  squareSize: string;
 };
 
 const days = ["S", "M", "T", "W", "T", "F", "S"];
 
-export const DaySquares: React.FC<Props> = ({ habits, habitCompletions }) => {
-  const { width } = useWindowSize();
-  const closestDaysDisplayed =
-    width < 440 ? 40 : width < 520 ? 60 : width < 860 ? 70 : 100;
-  const squareSize =
-    width < 660 ? "w-8 h-8" : width < 1200 ? "w-10 h-10" : "w-12 h-12";
-
-  const today = startOfDay(new Date());
-  const weekDay = today.getDay();
-  const daysDisplayed = Math.floor(closestDaysDisplayed / 7) * 7 + 1 + weekDay;
-  const allDays = Array.from({ length: daysDisplayed }, (_, i) =>
-    addDays(today, i - daysDisplayed + 1)
-  );
-
+export const DaySquares: React.FC<Props> = ({
+  habits,
+  habitCompletions,
+  allDays,
+  squareSize,
+}) => {
   return (
     <section className="grid-rows-7 grid grid-flow-col items-center gap-2">
       {days.map((day, i) => (
