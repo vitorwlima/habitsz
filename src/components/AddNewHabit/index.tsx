@@ -5,7 +5,10 @@ import { useSession } from "next-auth/react";
 import type { FormEvent } from "react";
 import { Fragment, useState } from "react";
 import { toast } from "react-hot-toast";
+import { z } from "zod";
+import { useZodForm } from "../../hooks/useZodForm";
 import { trpc } from "../../utils/trpc";
+import { Input } from "../UI";
 
 const frequencyOptions = [
   { value: "Mon", label: "Monday" },
@@ -17,6 +20,14 @@ const frequencyOptions = [
   { value: "Sun", label: "Sunday" },
 ];
 
+const HabitSchema = z.object({
+  title: z
+    .string({
+      required_error: "title is required",
+    })
+    .min(3, "title must be a minimum of 3 characters"),
+});
+
 export const AddNewHabit: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [habit, setHabit] = useState({
@@ -25,6 +36,10 @@ export const AddNewHabit: React.FC = () => {
   });
   const { data: session } = useSession();
   const userId = session?.user?.id ?? "";
+
+  const methods = useZodForm({
+    schema: HabitSchema,
+  });
 
   const handleCloseForm = () => {
     setIsOpen(false);
@@ -120,7 +135,16 @@ export const AddNewHabit: React.FC = () => {
                     </button>
                   </header>
 
-                  <form onSubmit={handleCreateHabit}>
+                  <form
+                    onSubmit={methods.handleSubmit((data) => {
+                      console.log(data);
+                      // mutate({
+                      //   frequency: "",
+                      //   title: data.title,
+                      //   userId,
+                      // });
+                    }, console.log)}
+                  >
                     <div className="mt-6 flex flex-col gap-6">
                       <div>
                         <label
@@ -129,14 +153,18 @@ export const AddNewHabit: React.FC = () => {
                         >
                           Title
                         </label>
-                        <input
-                          className="w-full appearance-none rounded border-2 border-transparent bg-neutral-600 py-2 px-4 leading-tight text-neutral-100 placeholder:text-neutral-300 focus:border-neutral-800 focus:outline-none"
+                        <Input
                           id="title"
                           type="text"
                           placeholder="My habit"
-                          onChange={onChange("title")}
-                          value={habit.title}
+                          error={!!methods.formState.errors.title}
+                          {...methods.register("title")}
                         />
+                        {methods.formState.errors.title && (
+                          <p className="text-sm text-red-200">
+                            {methods.formState.errors.title.message}
+                          </p>
+                        )}
                       </div>
                       <div>
                         <label className="mb-2 block pr-4 font-semibold text-neutral-100">
