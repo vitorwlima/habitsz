@@ -4,6 +4,7 @@ import type { Habit } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import type { FormEvent } from "react";
 import { Fragment, useState } from "react";
+import { Controller } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { useZodForm } from "../../hooks/useZodForm";
@@ -26,6 +27,7 @@ const HabitSchema = z.object({
       required_error: "title is required",
     })
     .min(3, "title must be a minimum of 3 characters"),
+  frequency: z.string().array().nonempty("Please select at least one day"),
 });
 
 export const AddNewHabit: React.FC = () => {
@@ -40,6 +42,10 @@ export const AddNewHabit: React.FC = () => {
   const methods = useZodForm({
     schema: HabitSchema,
   });
+
+  const frequency = methods.watch("frequency");
+
+  console.log("frequency arr: ", frequency);
 
   const handleCloseForm = () => {
     setIsOpen(false);
@@ -172,31 +178,50 @@ export const AddNewHabit: React.FC = () => {
                         </label>
                         <div className="flex flex-col gap-2">
                           {frequencyOptions.map((option) => {
-                            const checked = habit.frequency.includes(
-                              option.value
-                            );
+                            // const checked = habit.frequency.includes(
+                            //   option.value
+                            // );
+                            // const checked = frequency
+                            //   ? frequency.includes(option.value)
+                            //   : false;
                             return (
                               <div
                                 key={option.value}
                                 className="flex items-center gap-2"
                               >
-                                <Switch
-                                  checked={checked}
-                                  onChange={() =>
-                                    onFrequencyChange(option.value)
-                                  }
-                                  className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75 ${
-                                    checked
-                                      ? "border-green-500 bg-green-500"
-                                      : "border-neutral-600 bg-transparent"
-                                  }`}
-                                >
-                                  <CheckIcon
-                                    className={`h-5 w-5 text-white transition-all ${
-                                      !checked && "opacity-0"
-                                    }`}
-                                  />
-                                </Switch>
+                                <Controller
+                                  control={methods.control}
+                                  name="frequency"
+                                  render={({ field }) => {
+                                    console.log(field.value);
+                                    // const checked = field.value
+                                    //   ? field.value.includes(option.value)
+                                    //   : false;
+                                    const checked = false;
+
+                                    return (
+                                      <Switch
+                                        value={option.value}
+                                        checked={checked}
+                                        onChange={() =>
+                                          field.onChange(option.value)
+                                        }
+                                        className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75 ${
+                                          checked
+                                            ? "border-green-500 bg-green-500"
+                                            : "border-neutral-600 bg-transparent"
+                                        }`}
+                                      >
+                                        <CheckIcon
+                                          className={`h-5 w-5 text-white transition-all ${
+                                            !checked && "opacity-0"
+                                          }`}
+                                        />
+                                      </Switch>
+                                    );
+                                  }}
+                                />
+
                                 <span className="text-neutral-100">
                                   {option.label}
                                 </span>
