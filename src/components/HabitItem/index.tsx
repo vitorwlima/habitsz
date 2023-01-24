@@ -45,8 +45,12 @@ export const HabitItem: React.FC<Props> = ({
     <button className="flex gap-2" onClick={updateHabitCompletion}>
       <Switch
         checked={completed}
-        className={`${completed ? "bg-blue-500" : "bg-transparent"}
-          grid h-6 w-6 shrink-0 place-items-center rounded-lg border-2 border-gray-600 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+        className={`${
+          completed
+            ? "border-blue-500 bg-blue-500"
+            : "border-neutral-600 bg-transparent"
+        }
+          grid h-6 w-6 place-items-center rounded-lg border-2  transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
       >
         <CheckIcon
           className={`h-4 w-4 text-white transition-all ${
