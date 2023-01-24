@@ -32,8 +32,11 @@ export const AddNewHabit: React.FC = () => {
 
   const trpcUtils = trpc.useContext();
   const { mutate } = trpc.habit.create.useMutation({
-    onSuccess: () => {
-      trpcUtils.habit.getAll.invalidate();
+    onSuccess: (habitCreated) => {
+      trpcUtils.habit.getAll.setData({ userId }, (data) => [
+        ...(data || []),
+        habitCreated,
+      ]);
       handleCloseForm();
       console.log("Successfully created");
     },

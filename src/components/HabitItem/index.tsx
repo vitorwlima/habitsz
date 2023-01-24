@@ -18,20 +18,18 @@ export const HabitItem: React.FC<Props> = ({
   const { data: session } = useSession();
   const userId = session?.user?.id ?? "";
   const trpcUtils = trpc.useContext();
-  const { data: allCompletions } = trpc.habit.getAllCompletions.useQuery({
-    userId,
-  });
   const { mutate } = trpc.habit.updateHabitCompletion.useMutation();
   const completed = habitCompletion?.completed || false;
 
   const updateHabitCompletion = () => {
     trpcUtils.habit.getAllCompletions.setData(
       { userId },
-      allCompletions?.map((c) =>
-        c.habitId === habit.id && c.date === date
-          ? { ...c, completed: !c.completed }
-          : c
-      ) ?? []
+      (allCompletions) =>
+        allCompletions?.map((c) =>
+          c.habitId === habit.id && c.date === date
+            ? { ...c, completed: !c.completed }
+            : c
+        ) ?? []
     );
 
     mutate({
