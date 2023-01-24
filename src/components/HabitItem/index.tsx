@@ -2,6 +2,7 @@ import { Switch } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import type { Habit, HabitCompletion } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
 import { trpc } from "../../utils/trpc";
 
 type Props = {
@@ -18,7 +19,12 @@ export const HabitItem: React.FC<Props> = ({
   const { data: session } = useSession();
   const userId = session?.user?.id ?? "";
   const trpcUtils = trpc.useContext();
-  const { mutate } = trpc.habit.updateHabitCompletion.useMutation();
+  const { mutate } = trpc.habit.updateHabitCompletion.useMutation({
+    onError: () => {
+      trpcUtils.habit.getAllCompletions.invalidate({ userId });
+      toast.error("Habit completion update failed!");
+    },
+  });
   const completed = habitCompletion?.completed || false;
 
   const updateHabitCompletion = () => {

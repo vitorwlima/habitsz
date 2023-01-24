@@ -1,6 +1,7 @@
 import { SessionProvider, type SessionProviderProps } from "next-auth/react";
 import { type AppType } from "next/app";
 import Head from "next/head";
+import { Toaster } from "react-hot-toast";
 import "../styles/globals.css";
 import { trpc } from "../utils/trpc";
 
@@ -25,6 +26,14 @@ const MyApp: AppType<SessionProviderProps> = ({
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Toaster
+        toastOptions={{
+          style: {
+            backgroundColor: "#262626",
+            color: "#fff",
+          },
+        }}
+      />
       <Component {...pageProps} />
     </SessionProvider>
   );

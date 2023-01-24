@@ -4,6 +4,7 @@ import type { Habit } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import type { FormEvent } from "react";
 import { Fragment, useState } from "react";
+import { toast } from "react-hot-toast";
 import { trpc } from "../../utils/trpc";
 
 const frequencyOptions = [
@@ -38,9 +39,10 @@ export const AddNewHabit: React.FC = () => {
         habitCreated,
       ]);
       handleCloseForm();
-      console.log("Successfully created");
+      toast.success("Habit created successfully!");
     },
     onError: (err) => {
+      toast.error("Habit creation failed!");
       console.log("An error happened: ", err);
     },
   });
