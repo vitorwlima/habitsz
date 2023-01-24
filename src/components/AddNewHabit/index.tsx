@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 import type { FormEvent } from "react";
 import { Fragment, useState } from "react";
 import { trpc } from "../../utils/trpc";
-import { Input } from "../Input";
 
 const frequencyOptions = [
   { value: "Mon", label: "Monday" },
@@ -118,13 +117,22 @@ export const AddNewHabit: React.FC = () => {
 
                   <form onSubmit={handleCreateHabit}>
                     <div className="mt-6 flex flex-col gap-6">
-                      <Input
-                        label="Title"
-                        name="title"
-                        placeholder="My habit"
-                        onChange={onChange("title")}
-                        value={habit.title}
-                      />
+                      <div>
+                        <label
+                          className="mb-2 block w-fit pr-4 font-semibold text-neutral-100"
+                          htmlFor="title"
+                        >
+                          Title
+                        </label>
+                        <input
+                          className="w-full appearance-none rounded border-2 border-transparent bg-neutral-600 py-2 px-4 leading-tight text-neutral-100 placeholder:text-neutral-300 focus:border-neutral-800 focus:outline-none"
+                          id="title"
+                          type="text"
+                          placeholder="My habit"
+                          onChange={onChange("title")}
+                          value={habit.title}
+                        />
+                      </div>
                       <div>
                         <label className="mb-2 block pr-4 font-semibold text-neutral-100">
                           Frequency
