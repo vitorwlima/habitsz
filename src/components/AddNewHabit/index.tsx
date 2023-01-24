@@ -1,5 +1,5 @@
 import { Dialog, Switch, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/20/solid";
+import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import type { Habit } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import type { FormEvent } from "react";
@@ -103,16 +103,21 @@ export const AddNewHabit: React.FC = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    Add new habit
-                  </Dialog.Title>
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-neutral-800 p-6 text-left align-middle shadow-xl transition-all">
+                  <header className="flex items-center justify-between">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-2xl font-bold text-white"
+                    >
+                      Create habit
+                    </Dialog.Title>
+                    <button onClick={() => handleCloseForm()}>
+                      <XMarkIcon className="h-8 w-8 text-neutral-400" />
+                    </button>
+                  </header>
 
                   <form onSubmit={handleCreateHabit}>
-                    <div className="mt-4 flex flex-col gap-4">
+                    <div className="mt-6 flex flex-col gap-6">
                       <Input
                         label="Title"
                         name="title"
@@ -121,10 +126,10 @@ export const AddNewHabit: React.FC = () => {
                         value={habit.title}
                       />
                       <div>
-                        <label className="mb-1 block pr-4 font-semibold text-gray-500">
+                        <label className="mb-2 block pr-4 font-semibold text-neutral-100">
                           Frequency
                         </label>
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-2">
                           {frequencyOptions.map((option) => {
                             const checked = habit.frequency.includes(
                               option.value
@@ -139,10 +144,11 @@ export const AddNewHabit: React.FC = () => {
                                   onChange={() =>
                                     onFrequencyChange(option.value)
                                   }
-                                  className={`${
-                                    checked ? "bg-green-500" : "bg-gray-200"
-                                  }
-          grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 border-gray-100 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                                  className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75 ${
+                                    checked
+                                      ? "border-green-500 bg-green-500"
+                                      : "border-neutral-600 bg-transparent"
+                                  }`}
                                 >
                                   <CheckIcon
                                     className={`h-5 w-5 text-white transition-all ${
@@ -150,30 +156,21 @@ export const AddNewHabit: React.FC = () => {
                                     }`}
                                   />
                                 </Switch>
-                                <span>{option.label}</span>
+                                <span className="text-neutral-100">
+                                  {option.label}
+                                </span>
                               </div>
                             );
                           })}
                         </div>
                       </div>
                     </div>
-
-                    <div className="mt-8 flex justify-between">
-                      <button
-                        type="button"
-                        className="inline-flex justify-center rounded-md border border-transparent bg-red-300 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                        onClick={() => handleCloseForm()}
-                      >
-                        Cancel
-                      </button>
-
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500  focus-visible:ring-offset-2"
-                      >
-                        Create
-                      </button>
-                    </div>
+                    <button
+                      type="submit"
+                      className="mt-6 w-full rounded-md border border-transparent bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500  focus-visible:ring-offset-2"
+                    >
+                      Create
+                    </button>
                   </form>
                 </Dialog.Panel>
               </Transition.Child>
