@@ -25,7 +25,7 @@ export const Habits: React.FC<Props> = ({ habits, habitCompletions }) => {
   );
 
   return (
-    <section className="flex h-full w-full flex-col justify-center">
+    <section>
       <header className="flex items-center justify-between">
         <span className="font-bold">Last {weeksDisplayed} weeks</span>
 

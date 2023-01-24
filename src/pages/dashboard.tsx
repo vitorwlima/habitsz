@@ -3,6 +3,7 @@ import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { Habits } from "../components/Habits";
+import { Loading } from "../components/Loading";
 import { Sidebar } from "../components/Sidebar";
 import { Title } from "../components/Title";
 import { useAuthRoute } from "../hooks/useAuthRoute";
@@ -20,7 +21,11 @@ const Dashboard: NextPage = () => {
   const { data: completions, isLoading: isCompletionsLoading } =
     trpc.habit.getAllCompletions.useQuery({ userId });
 
-  const isLoading = isHabitsLoading || isCompletionsLoading;
+  const isLoading =
+    isHabitsLoading ||
+    isCompletionsLoading ||
+    habits === undefined ||
+    completions === undefined;
 
   const switchIsOpen = () => {
     setIsSidebarOpen((o) => !o);
@@ -43,9 +48,9 @@ const Dashboard: NextPage = () => {
         isOpen={isSidebarOpen}
         switchIsOpen={switchIsOpen}
       />
-      <div className="container mx-auto flex max-w-[1000px] flex-col p-8">
-        {isLoading || habits === undefined || completions === undefined ? (
-          <div>Loading...</div>
+      <div className="mx-auto flex max-w-[1000px] items-center justify-center p-8">
+        {isLoading ? (
+          <Loading />
         ) : (
           <Habits habits={habits} habitCompletions={completions} />
         )}
