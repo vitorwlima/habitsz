@@ -20,6 +20,17 @@ export const HabitItem: React.FC<Props> = ({
   const userId = session?.user?.id ?? "";
   const trpcUtils = trpc.useContext();
   const { mutate } = trpc.habit.updateHabitCompletion.useMutation({
+    onSuccess: (habitCompletionCreated) => {
+      trpcUtils.habit.getAllCompletions.setData(
+        { userId },
+        (allCompletions) =>
+          allCompletions?.map((hC) =>
+            hC.habitId === habit.id && hC.date === date
+              ? habitCompletionCreated
+              : hC
+          ) ?? []
+      );
+    },
     onError: () => {
       trpcUtils.habit.getAllCompletions.invalidate({ userId });
       toast.error("Habit completion update failed!");
@@ -28,14 +39,22 @@ export const HabitItem: React.FC<Props> = ({
   const completed = habitCompletion?.completed || false;
 
   const updateHabitCompletion = () => {
-    trpcUtils.habit.getAllCompletions.setData(
-      { userId },
-      (allCompletions) =>
-        allCompletions?.map((c) =>
-          c.habitId === habit.id && c.date === date
-            ? { ...c, completed: !c.completed }
-            : c
-        ) ?? []
+    trpcUtils.habit.getAllCompletions.setData({ userId }, (allCompletions) =>
+      habitCompletion
+        ? allCompletions?.map((c) =>
+            c.id === habitCompletion.id ? { ...c, completed: !c.completed } : c
+          ) ?? []
+        : [
+            ...(allCompletions ?? []),
+            {
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              habitId: habit.id,
+              completed: !completed,
+              date,
+              id: "",
+            },
+          ]
     );
 
     mutate({
