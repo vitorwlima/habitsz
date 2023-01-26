@@ -4,9 +4,5 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [
-    require("tailwindcss-animation-delay"),
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require("@tailwindcss/forms")({ strategy: "class" }),
-  ],
+  plugins: [require("tailwindcss-animation-delay")],
 };

@@ -4,6 +4,7 @@ import type { ComponentProps } from "react";
 import { forwardRef } from "react";
 
 export type InputProps = ComponentProps<"input"> & { error?: boolean };
+
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ id, error, ...props }, ref) => {
     return (
@@ -11,9 +12,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           className={clsx(
             error
-              ? "border-red-300 pr-10 text-red-300 focus:border-red-400"
-              : "border-transparent pr-0 text-neutral-100 focus:border-neutral-800",
-            "w-full appearance-none rounded border-2  bg-neutral-600 py-2 px-4 leading-tight  placeholder:text-neutral-300  focus:outline-none"
+              ? "pr-10 text-red-300 focus-visible:ring-red-400"
+              : "pr-0 text-neutral-100 focus-visible:ring-white focus-visible:ring-opacity-75",
+            "w-full appearance-none rounded-lg  bg-neutral-600 py-2 px-4 leading-tight  placeholder:text-neutral-300 focus:outline-none focus-visible:ring-2"
           )}
           id={id}
           ref={ref}
@@ -34,4 +35,4 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = "Input";
 
-export default Input;
+export { Input };
