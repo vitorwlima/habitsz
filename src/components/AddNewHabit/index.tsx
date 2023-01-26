@@ -1,11 +1,13 @@
-import { Dialog, Switch, Transition } from "@headlessui/react";
-import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import type { Habit } from "@prisma/client";
+import { Dialog, Transition } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 import { useSession } from "next-auth/react";
-import type { FormEvent } from "react";
 import { Fragment, useState } from "react";
+import { Controller } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { z } from "zod";
+import { useZodForm } from "../../hooks/useZodForm";
 import { trpc } from "../../utils/trpc";
+import { Input } from "../UI";
 
 const frequencyOptions = [
   { value: "Mon", label: "Monday" },
@@ -17,60 +19,22 @@ const frequencyOptions = [
   { value: "Sun", label: "Sunday" },
 ];
 
+const HabitSchema = z.object({
+  title: z
+    .string({
+      required_error: "title is required",
+    })
+    .min(3, "title must be a minimum of 3 characters"),
+  frequency: z.array(z.string()).min(1, "Please select at least one day"),
+});
+
 export const AddNewHabit: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [habit, setHabit] = useState({
-    title: "",
-    frequency: [] as string[],
-  });
   const { data: session } = useSession();
   const userId = session?.user?.id ?? "";
 
   const handleCloseForm = () => {
     setIsOpen(false);
-    setHabit({ title: "", frequency: [] });
-  };
-
-  const trpcUtils = trpc.useContext();
-  const { mutate } = trpc.habit.create.useMutation({
-    onSuccess: (habitCreated) => {
-      trpcUtils.habit.getAll.setData({ userId }, (data) => [
-        ...(data || []),
-        habitCreated,
-      ]);
-      handleCloseForm();
-      toast.success("Habit created successfully!");
-    },
-    onError: (err) => {
-      toast.error("Habit creation failed!");
-      console.log("An error happened: ", err);
-    },
-  });
-
-  const onChange =
-    (name: keyof Habit) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setHabit({ ...habit, [name]: e.target.value });
-    };
-
-  const onFrequencyChange = (option: string) => {
-    setHabit((h) => ({
-      ...h,
-      frequency: h.frequency.includes(option)
-        ? h.frequency.filter((f) => f !== option)
-        : [...h.frequency, option],
-    }));
-  };
-
-  const handleCreateHabit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const habitToCreate = {
-      title: habit.title,
-      frequency: habit.frequency.join(","),
-      userId,
-    };
-
-    mutate(habitToCreate);
   };
 
   return (
@@ -120,71 +84,7 @@ export const AddNewHabit: React.FC = () => {
                     </button>
                   </header>
 
-                  <form onSubmit={handleCreateHabit}>
-                    <div className="mt-6 flex flex-col gap-6">
-                      <div>
-                        <label
-                          className="mb-2 block w-fit pr-4 font-semibold text-neutral-100"
-                          htmlFor="title"
-                        >
-                          Title
-                        </label>
-                        <input
-                          className="w-full appearance-none rounded border-2 border-transparent bg-neutral-600 py-2 px-4 leading-tight text-neutral-100 placeholder:text-neutral-300 focus:border-neutral-800 focus:outline-none"
-                          id="title"
-                          type="text"
-                          placeholder="My habit"
-                          onChange={onChange("title")}
-                          value={habit.title}
-                        />
-                      </div>
-                      <div>
-                        <label className="mb-2 block pr-4 font-semibold text-neutral-100">
-                          Frequency
-                        </label>
-                        <div className="flex flex-col gap-2">
-                          {frequencyOptions.map((option) => {
-                            const checked = habit.frequency.includes(
-                              option.value
-                            );
-                            return (
-                              <div
-                                key={option.value}
-                                className="flex items-center gap-2"
-                              >
-                                <Switch
-                                  checked={checked}
-                                  onChange={() =>
-                                    onFrequencyChange(option.value)
-                                  }
-                                  className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75 ${
-                                    checked
-                                      ? "border-green-500 bg-green-500"
-                                      : "border-neutral-600 bg-transparent"
-                                  }`}
-                                >
-                                  <CheckIcon
-                                    className={`h-5 w-5 text-white transition-all ${
-                                      !checked && "opacity-0"
-                                    }`}
-                                  />
-                                </Switch>
-                                <span className="text-neutral-100">
-                                  {option.label}
-                                </span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      type="submit"
-                      className="mt-6 w-full rounded-md border border-transparent bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500  focus-visible:ring-offset-2"
-                    >
-                      Create
-                    </button>
-                  </form>
+                  <HabitForm userId={userId} handleClose={handleCloseForm} />
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -192,5 +92,122 @@ export const AddNewHabit: React.FC = () => {
         </Dialog>
       </Transition>
     </>
+  );
+};
+
+type HabitFormProps = {
+  handleClose: () => void;
+  userId: string;
+};
+
+const HabitForm = ({ handleClose, userId }: HabitFormProps) => {
+  const methods = useZodForm({
+    schema: HabitSchema,
+    defaultValues: {
+      title: "",
+      frequency: [],
+    },
+  });
+
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
+
+  const trpcUtils = trpc.useContext();
+  const { mutate } = trpc.habit.create.useMutation({
+    onSuccess: () => {
+      trpcUtils.habit.getAll.invalidate({ userId });
+
+      handleClose();
+      toast.success("Habit created successfully!");
+    },
+    onError: (err) => {
+      toast.error("Habit creation failed!");
+      console.log("An error happened: ", err);
+    },
+  });
+
+  // had to do this because rhf was being weird when doing a simple register
+  const onFrequencyChange = (option: string) => {
+    const values = methods.getValues();
+    methods.setValue(
+      "frequency",
+      values.frequency.includes(option)
+        ? values.frequency.filter((f) => f !== option)
+        : [...values.frequency, option]
+    );
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit((data) => {
+        console.log(data);
+        mutate({
+          frequency: data.frequency.join(","),
+          title: data.title,
+          userId,
+        });
+      }, console.log)}
+    >
+      <div className="mt-6 flex flex-col gap-6">
+        <div>
+          <label
+            className="mb-2 block w-fit pr-4 font-semibold text-neutral-100"
+            htmlFor="title"
+          >
+            Title
+          </label>
+          <Input
+            id="title"
+            type="text"
+            placeholder="My habit"
+            error={!!errors.title}
+            {...methods.register("title")}
+          />
+          {errors.title && (
+            <p className="text-sm text-red-200">{errors.title.message}</p>
+          )}
+        </div>
+        <div>
+          <label className="mb-2 block pr-4 font-semibold text-neutral-100">
+            Frequency
+          </label>
+          <div className="flex flex-col gap-2">
+            {frequencyOptions.map((option, index) => (
+              <div
+                key={option.value + index}
+                className="flex items-center gap-2"
+              >
+                <Controller
+                  name="frequency"
+                  control={methods.control}
+                  render={({ field }) => (
+                    <input
+                      type="checkbox"
+                      value={option.value}
+                      checked={field.value.includes(option.value)}
+                      onChange={() => onFrequencyChange(option.value)}
+                      className="form-checkbox h-4 w-4 rounded border-2  border-neutral-600 bg-transparent text-green-500 transition-colors  focus:ring-green-500 "
+                    />
+                  )}
+                />
+
+                <span className="text-neutral-100">{option.label}</span>
+              </div>
+            ))}
+            {errors.frequency && (
+              <p className="text-sm text-red-200">{errors.frequency.message}</p>
+            )}
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        className="mt-6 w-full rounded-md border border-transparent bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500  focus-visible:ring-offset-2"
+      >
+        Create
+      </button>
+    </form>
   );
 };
