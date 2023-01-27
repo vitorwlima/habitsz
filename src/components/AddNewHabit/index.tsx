@@ -17,7 +17,7 @@ export const AddNewHabit: React.FC = () => {
   return (
     <>
       <button
-        className="flex w-fit items-center justify-center rounded-lg border-2 border-blue-600 px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-800 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
+        className="flex w-fit items-center justify-center rounded-lg border-2 border-blue-600 px-2 py-2 text-sm font-medium transition-colors hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-white  focus-visible:ring-opacity-75 sm:px-4"
         onClick={() => setIsOpen(true)}
       >
         <PlusCircleIcon className="mr-2 h-6 w-6 text-blue-600" />

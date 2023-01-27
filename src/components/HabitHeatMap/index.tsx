@@ -28,7 +28,7 @@ export const HabitHeatMap: React.FC<Props> = ({ habits, habitCompletions }) => {
   return (
     <section>
       <header className="flex items-center justify-between">
-        <span className="text-xl font-bold text-neutral-100">
+        <span className="font-bold text-neutral-100 sm:text-xl">
           Last {weeksDisplayed} weeks
         </span>
 
