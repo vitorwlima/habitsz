@@ -13,7 +13,7 @@ export const Title: React.FC<Props> = ({ className = "" }) => {
         <div className="absolute left-0 h-2 w-2/4 rounded-l-full bg-blue-400 transition-all" />
         <div className="absolute left-0 h-2 w-1/4 rounded-l-full bg-blue-300 transition-all" />
       </div>
-      <strong className="font-extrabold">habitsz</strong>
+      <strong className={`font-extrabold ${className}`}>habitsz</strong>
     </h1>
   );
 };

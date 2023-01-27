@@ -28,7 +28,11 @@ const Analytics: NextPage = () => {
         switchIsOpen={switchIsSidebarOpen}
       />
       <div className="mx-auto flex max-w-[1000px] items-center justify-center py-8 px-4">
-        {isLoading ? <Loading /> : <div>Em breve</div>}
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="text-xl font-bold">Available soon</div>
+        )}
       </div>
     </main>
   );
