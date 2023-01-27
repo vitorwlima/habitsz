@@ -71,7 +71,7 @@ export const HabitItem: React.FC<Props> = ({
         onChange={updateHabitCompletion}
         checked={completed}
         className={clsx(
-          "grid h-6 w-6 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75",
+          "grid aspect-square h-6 w-6 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75",
           {
             "border-blue-600 bg-blue-600": completed,
             "border-zinc-700 bg-transparent": !completed,
