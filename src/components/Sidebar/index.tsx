@@ -18,7 +18,7 @@ export const Sidebar: React.FC<Props> = ({
       <div
         className={`${
           isOpen ? "translate-x-0" : "translate-x-[-100vw]"
-        } absolute z-10 flex h-screen w-screen flex-col justify-between bg-gradient-to-b from-blue-900 to-gray-900 p-8 transition-all lg:static lg:w-[300px] lg:translate-x-0`}
+        } absolute z-10 flex h-screen w-screen flex-col justify-between bg-gradient-to-b from-blue-800 to-gray-900 py-8 px-4 transition-all lg:static lg:w-[300px] lg:translate-x-0`}
       >
         <header className="flex items-center justify-between lg:justify-center">
           <button onClick={() => switchIsOpen()} className="lg:hidden">
@@ -27,7 +27,8 @@ export const Sidebar: React.FC<Props> = ({
           <Title className="text-center" />
         </header>
 
-        <div className="flex flex-col border-t-4 border-blue-800 p-2 pt-4">
+        <div className="flex flex-col">
+          <div className="mb-2 h-1 w-full rounded-full bg-blue-600" />
           <span>
             Hi, <strong>{userName}</strong>!
           </span>

@@ -35,7 +35,7 @@ const Dashboard: NextPage = () => {
 
   return (
     <main className="flex min-h-screen flex-col bg-neutral-900 text-white lg:flex-row">
-      <header className="mb-8 flex items-center justify-between p-8 lg:hidden">
+      <header className="mb-8 flex items-center justify-between py-8 px-4 lg:hidden">
         <button onClick={() => switchIsOpen()}>
           <Bars3Icon className="flex h-8 w-8" />
         </button>
@@ -48,7 +48,7 @@ const Dashboard: NextPage = () => {
         isOpen={isSidebarOpen}
         switchIsOpen={switchIsOpen}
       />
-      <div className="mx-auto flex max-w-[1000px] items-center justify-center p-8">
+      <div className="mx-auto flex max-w-[1000px] items-center justify-center py-8 px-4">
         {isLoading ? (
           <Loading />
         ) : (
