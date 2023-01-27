@@ -5,7 +5,7 @@ import { Title } from "../components/Title";
 import { useAuthRoute } from "../hooks/useAuthRoute";
 
 const Home: NextPage = () => {
-  useAuthRoute(false);
+  useAuthRoute("hasToBeUnauthed");
 
   const handleLogin = () => {
     signIn("google");

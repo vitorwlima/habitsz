@@ -9,7 +9,7 @@ import { useAuthRoute } from "../hooks/useAuthRoute";
 import { trpc } from "../utils/trpc";
 
 const Habits: NextPage = () => {
-  const userStatus = useAuthRoute(true);
+  const userStatus = useAuthRoute("hasToBeAuthed");
   const { data: session } = useSession();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const userId = session?.user?.id ?? "";

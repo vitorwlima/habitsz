@@ -2,12 +2,18 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-export const useAuthRoute = (authedRoute: boolean) => {
+export type AuthPermissions = "hasToBeAuthed" | "hasToBeUnauthed" | "any";
+
+export const useAuthRoute = (authedRoute: AuthPermissions) => {
   const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (authedRoute) {
+    if (authedRoute === "any") {
+      return;
+    }
+
+    if (authedRoute === "hasToBeAuthed") {
       if (status !== "authenticated") {
         router.push("/");
       }
