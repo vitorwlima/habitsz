@@ -123,16 +123,17 @@ export const HabitForm = ({ handleClose, userId }: Props) => {
                         value={option.value}
                         onChange={() => onFrequencyChange(option.value)}
                         className={clsx(
-                          checked
-                            ? "border-green-500 bg-green-500"
-                            : "border-zinc-700 bg-transparent",
-                          "grid h-7 w-7 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
+                          "grid h-7 w-7 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75",
+                          {
+                            "border-green-500 bg-green-500": checked,
+                            "border-zinc-700 bg-transparent": !checked,
+                          }
                         )}
                       >
                         <CheckIcon
-                          className={`h-5 w-5 text-white transition-all ${
-                            !checked && "opacity-0"
-                          }`}
+                          className={clsx("h-5 w-5 text-white transition-all", {
+                            "opacity-0": !checked,
+                          })}
                         />
                       </Switch>
                     );
@@ -150,7 +151,7 @@ export const HabitForm = ({ handleClose, userId }: Props) => {
       </div>
       <button
         type="submit"
-        className="mt-6 flex w-full items-center justify-center gap-3 rounded-lg border border-transparent bg-green-500 px-4 py-3 text-white transition-colors hover:bg-green-400 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
+        className="mt-6 flex w-full items-center justify-center gap-3 rounded-lg border border-transparent  bg-green-500 px-4 py-3  text-white transition-colors  hover:bg-green-400 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
       >
         <CheckIcon className="h-5 w-5" />
         <span className="font-semibold">Create</span>

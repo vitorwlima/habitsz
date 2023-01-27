@@ -22,7 +22,7 @@ export const DaySquares: React.FC<Props> = ({
       {days.map((day, i) => (
         <div
           key={day + i}
-          className={`grid ${squareSize} place-items-center text-xl font-bold text-neutral-100`}
+          className={`${squareSize} grid place-items-center text-xl font-bold text-neutral-100`}
         >
           <span>{day}</span>
         </div>

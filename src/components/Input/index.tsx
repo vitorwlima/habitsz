@@ -10,10 +10,12 @@ export const Input = forwardRef<HTMLInputElement, Props>(
       <div className="relative">
         <input
           className={clsx(
-            error
-              ? "pr-10 text-red-300 focus-visible:ring-red-400"
-              : "pr-0 text-neutral-100 focus-visible:ring-white focus-visible:ring-opacity-75",
-            "w-full appearance-none rounded-xl  bg-zinc-800 p-4  placeholder:text-neutral-300 focus:outline-none focus-visible:ring-2"
+            "w-full appearance-none rounded-xl  bg-zinc-800 p-4  placeholder:text-neutral-300 focus:outline-none focus-visible:ring-2",
+            {
+              "pr-10 text-red-300 focus-visible:ring-red-400": error,
+              "pr-0 text-neutral-100 focus-visible:ring-white focus-visible:ring-opacity-75":
+                !error,
+            }
           )}
           id={id}
           ref={ref}

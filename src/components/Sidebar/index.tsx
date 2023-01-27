@@ -1,4 +1,5 @@
 import { XMarkIcon } from "@heroicons/react/20/solid";
+import clsx from "clsx";
 import { signOut } from "next-auth/react";
 import { SidebarLink } from "../SidebarLink";
 import { Title } from "../Title";
@@ -17,9 +18,13 @@ export const Sidebar: React.FC<Props> = ({
   return (
     <>
       <div
-        className={`${
-          isOpen ? "translate-x-0" : "translate-x-[-100vw]"
-        } absolute z-10 flex h-screen w-screen flex-col justify-between bg-gradient-to-b from-blue-800 to-gray-900 py-8 transition-all lg:static lg:w-[300px] lg:translate-x-0`}
+        className={clsx(
+          "absolute z-10 flex h-screen w-screen flex-col justify-between bg-gradient-to-b from-blue-800 to-gray-900 py-8 transition-all lg:static lg:w-[300px] lg:translate-x-0",
+          {
+            "translate-x-0": isOpen,
+            "translate-x-[-100vw]": !isOpen,
+          }
+        )}
       >
         <div className="flex flex-col">
           <header className="flex items-center justify-between px-4 lg:justify-center">

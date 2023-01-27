@@ -79,16 +79,16 @@ export const HabitItem: React.FC<Props> = ({
         )}
       >
         <CheckIcon
-          className={`h-4 w-4 text-white transition-all ${
-            !completed && "opacity-0"
-          }`}
+          className={clsx("h-4 w-4 text-white transition-all", {
+            "opacity-0": !completed,
+          })}
         />
       </Switch>
 
       <span
-        className={`text-left text-lg leading-6 text-neutral-100 ${
-          completed && "opacity-50"
-        }`}
+        className={clsx("text-left text-lg leading-6 text-neutral-100", {
+          "opacity-50": completed,
+        })}
       >
         {habit.title}
       </span>
