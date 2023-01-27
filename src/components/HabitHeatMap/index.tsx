@@ -1,16 +1,10 @@
-import type { Habit, HabitCompletion } from "@prisma/client";
 import { addDays, startOfDay } from "date-fns";
 import { useWindowSize } from "usehooks-ts";
 import { AddNewHabit } from "../AddNewHabit";
 import { DaySquares } from "../DaySquares";
 import { HeatMapSubtitles } from "../HeatMapSubtitles";
 
-type Props = {
-  habits: Habit[];
-  habitCompletions: HabitCompletion[];
-};
-
-export const HabitHeatMap: React.FC<Props> = ({ habits, habitCompletions }) => {
+export const HabitHeatMap: React.FC = () => {
   const { width } = useWindowSize();
   const closestDaysDisplayed =
     width < 440
@@ -52,12 +46,7 @@ export const HabitHeatMap: React.FC<Props> = ({ habits, habitCompletions }) => {
       </header>
 
       <div className="mx-auto mt-8">
-        <DaySquares
-          habits={habits}
-          habitCompletions={habitCompletions}
-          allDays={allDays}
-          squareSize={squareSize}
-        />
+        <DaySquares allDays={allDays} squareSize={squareSize} />
       </div>
 
       <div className={`${heatMapMarginLeft} mt-8`}>

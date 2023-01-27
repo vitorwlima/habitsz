@@ -10,7 +10,6 @@ import { Input } from "../Input";
 
 type Props = {
   handleClose: () => void;
-  userId: string;
 };
 
 const frequencyOptions = [
@@ -32,7 +31,7 @@ const HabitSchema = z.object({
   frequency: z.array(z.string()).min(1, "Frequency must have at least one day"),
 });
 
-export const HabitForm: React.FC<Props> = ({ handleClose, userId }) => {
+export const HabitForm: React.FC<Props> = ({ handleClose }) => {
   const methods = useZodForm({
     schema: HabitSchema,
     defaultValues: {
@@ -49,7 +48,7 @@ export const HabitForm: React.FC<Props> = ({ handleClose, userId }) => {
   const trpcUtils = trpc.useContext();
   const { mutate } = trpc.habit.create.useMutation({
     onSuccess: (habitCreated) => {
-      trpcUtils.habit.getAll.setData({ userId }, (habits) => [
+      trpcUtils.habit.getAll.setData(undefined, (habits) => [
         ...(habits ?? []),
         habitCreated,
       ]);
@@ -79,7 +78,6 @@ export const HabitForm: React.FC<Props> = ({ handleClose, userId }) => {
         mutate({
           frequency: data.frequency.join(","),
           title: data.title,
-          userId,
         });
       })}
     >

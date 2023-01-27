@@ -1,63 +1,49 @@
 import { z } from "zod";
-import { prisma } from "../../db/client";
-import { publicProcedure, router } from "../trpc";
+import { protectedProcedure, router } from "../trpc";
 
 export const habitRouter = router({
-  getAll: publicProcedure
-    .input(
-      z.object({
-        userId: z.string(),
-      })
-    )
-    .query(async ({ input }) => {
-      const habits = await prisma?.habit.findMany({
-        where: {
-          userId: input.userId,
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    const habits = await ctx.prisma.habit.findMany({
+      where: {
+        userId: ctx.user.id,
+      },
+    });
+
+    return habits ?? [];
+  }),
+
+  getAllCompletions: protectedProcedure.query(async ({ ctx }) => {
+    const completions = await ctx.prisma.habitCompletion.findMany({
+      where: {
+        habit: {
+          userId: ctx.user.id,
         },
-      });
+      },
+    });
 
-      return habits ?? [];
-    }),
+    return completions ?? [];
+  }),
 
-  getAllCompletions: publicProcedure
-    .input(
-      z.object({
-        userId: z.string(),
-      })
-    )
-    .query(async ({ input }) => {
-      const completions = await prisma?.habitCompletion.findMany({
-        where: {
-          habit: {
-            userId: input.userId,
-          },
-        },
-      });
-
-      return completions ?? [];
-    }),
-
-  create: publicProcedure
+  create: protectedProcedure
     .input(
       z.object({
         title: z.string(),
         frequency: z.string(),
-        userId: z.string(),
       })
     )
-    .mutation(async ({ input }) => {
-      const habit = await prisma?.habit.create({
+    .mutation(async ({ input, ctx }) => {
+      const habit = await ctx.prisma.habit.create({
         data: {
           title: input.title,
           frequency: input.frequency,
-          userId: input.userId,
+          userId: ctx.user.id,
         },
       });
 
       return habit;
     }),
 
-  updateHabitCompletion: publicProcedure
+  updateHabitCompletion: protectedProcedure
     .input(
       z.object({
         habitId: z.string(),
@@ -65,16 +51,18 @@ export const habitRouter = router({
         completed: z.boolean(),
       })
     )
-    .mutation(async ({ input }) => {
-      const currentHabitCompletion = await prisma?.habitCompletion.findFirst({
-        where: {
-          habitId: input.habitId,
-          date: input.date,
-        },
-      });
+    .mutation(async ({ input, ctx }) => {
+      const currentHabitCompletion = await ctx.prisma.habitCompletion.findFirst(
+        {
+          where: {
+            habitId: input.habitId,
+            date: input.date,
+          },
+        }
+      );
 
       if (currentHabitCompletion) {
-        const habitCompletion = await prisma?.habitCompletion.update({
+        const habitCompletion = await ctx.prisma.habitCompletion.update({
           where: {
             id: currentHabitCompletion.id,
           },
@@ -86,7 +74,7 @@ export const habitRouter = router({
         return habitCompletion;
       }
 
-      const habitCompletion = await prisma?.habitCompletion.create({
+      const habitCompletion = await ctx.prisma.habitCompletion.create({
         data: {
           habitId: input.habitId,
           completed: true,

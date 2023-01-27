@@ -1,14 +1,11 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import { useSession } from "next-auth/react";
 import { Fragment, useState } from "react";
 import { HabitForm } from "../HabitForm";
 
 export const AddNewHabit: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session } = useSession();
-  const userId = session?.user?.id ?? "";
 
   const handleCloseForm = () => {
     setIsOpen(false);
@@ -65,7 +62,7 @@ export const AddNewHabit: React.FC = () => {
                     </button>
                   </header>
 
-                  <HabitForm userId={userId} handleClose={handleCloseForm} />
+                  <HabitForm handleClose={handleCloseForm} />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

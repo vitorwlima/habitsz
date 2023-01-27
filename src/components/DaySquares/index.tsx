@@ -1,22 +1,19 @@
-import type { Habit, HabitCompletion } from "@prisma/client";
 import { format } from "date-fns";
+import { trpc } from "../../utils/trpc";
 import { DaySingleSquare } from "../DaySingleSquare";
 
 type Props = {
-  habits: Habit[];
-  habitCompletions: HabitCompletion[];
   allDays: Date[];
   squareSize: string;
 };
 
 const days = ["S", "M", "T", "W", "T", "F", "S"];
 
-export const DaySquares: React.FC<Props> = ({
-  habits,
-  habitCompletions,
-  allDays,
-  squareSize,
-}) => {
+export const DaySquares: React.FC<Props> = ({ allDays, squareSize }) => {
+  const { data: habits = [] } = trpc.habit.getAll.useQuery();
+  const { data: habitCompletions = [] } =
+    trpc.habit.getAllCompletions.useQuery();
+
   return (
     <section className="grid-rows-7 grid grid-flow-col items-center gap-2">
       {days.map((day, i) => (

@@ -2,7 +2,6 @@ import { Switch } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import type { Habit, HabitCompletion } from "@prisma/client";
 import clsx from "clsx";
-import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { trpc } from "../../utils/trpc";
 
@@ -17,13 +16,11 @@ export const HabitItem: React.FC<Props> = ({
   habitCompletion,
   date,
 }) => {
-  const { data: session } = useSession();
-  const userId = session?.user?.id ?? "";
   const trpcUtils = trpc.useContext();
   const { mutate } = trpc.habit.updateHabitCompletion.useMutation({
     onSuccess: (habitCompletionCreated) => {
       trpcUtils.habit.getAllCompletions.setData(
-        { userId },
+        undefined,
         (allCompletions) =>
           allCompletions?.map((hC) =>
             hC.habitId === habit.id && hC.date === date
@@ -33,14 +30,14 @@ export const HabitItem: React.FC<Props> = ({
       );
     },
     onError: () => {
-      trpcUtils.habit.getAllCompletions.invalidate({ userId });
+      trpcUtils.habit.getAllCompletions.invalidate();
       toast.error("Habit completion update failed!");
     },
   });
   const completed = habitCompletion?.completed || false;
 
   const updateHabitCompletion = () => {
-    trpcUtils.habit.getAllCompletions.setData({ userId }, (allCompletions) =>
+    trpcUtils.habit.getAllCompletions.setData(undefined, (allCompletions) =>
       habitCompletion
         ? allCompletions?.map((c) =>
             c.id === habitCompletion.id ? { ...c, completed: !c.completed } : c

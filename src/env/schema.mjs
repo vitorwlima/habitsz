@@ -10,6 +10,7 @@ export const serverSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
+  NEXTAUTH_SECRET: z.string(),
 });
 
 /**

@@ -11,8 +11,6 @@ const Dashboard: NextPage = () => {
     isSidebarOpen,
     switchIsSidebarOpen,
     userName,
-    habits,
-    completions,
     authStatus,
     isCompletionsLoading,
     isHabitsLoading,
@@ -37,11 +35,7 @@ const Dashboard: NextPage = () => {
         switchIsOpen={switchIsSidebarOpen}
       />
       <div className="mx-auto flex max-w-[1000px] items-center justify-center py-8 px-4">
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <HabitHeatMap habits={habits} habitCompletions={completions} />
-        )}
+        {isLoading ? <Loading /> : <HabitHeatMap />}
       </div>
     </main>
   );
