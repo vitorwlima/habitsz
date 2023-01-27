@@ -14,6 +14,12 @@ const Document = () => {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap"
           rel="stylesheet"
         />
+
+        <script
+          defer
+          data-domain="habitsz.com"
+          src="https://plausible.io/js/script.js"
+        ></script>
       </Head>
       <body>
         <Main />
