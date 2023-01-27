@@ -19,7 +19,7 @@ export const Sidebar: React.FC<Props> = ({
     <>
       <div
         className={clsx(
-          "absolute z-10 flex h-screen w-screen flex-col justify-between bg-gradient-to-b from-blue-800 to-gray-900 py-8 transition-all lg:static lg:w-[300px] lg:translate-x-0",
+          "absolute z-10 flex h-screen w-screen flex-col justify-between bg-gradient-to-b from-blue-800 to-gray-900 py-8 pb-28 transition-all lg:static lg:w-[300px] lg:translate-x-0 lg:pb-8",
           {
             "translate-x-0": isOpen,
             "translate-x-[-100vw]": !isOpen,
