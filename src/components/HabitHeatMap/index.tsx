@@ -30,6 +30,8 @@ export const HabitHeatMap: React.FC<Props> = ({ habits, habitCompletions }) => {
       : 180;
   const squareSize =
     width < 660 ? "w-8 h-8" : width < 1200 ? "w-10 h-10" : "w-12 h-12";
+  const heatMapMarginLeft =
+    width < 660 ? "ml-10" : width < 1200 ? "ml-12" : "ml-14";
 
   const today = startOfDay(new Date());
   const weekDay = today.getDay();
@@ -58,7 +60,7 @@ export const HabitHeatMap: React.FC<Props> = ({ habits, habitCompletions }) => {
         />
       </div>
 
-      <div className="mt-8 sm:ml-8">
+      <div className={`${heatMapMarginLeft} mt-8`}>
         <HeatMapSubtitles />
       </div>
     </section>
