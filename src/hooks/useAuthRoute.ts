@@ -9,7 +9,7 @@ export const useAuthRoute = (authedRoute: AuthPermissions) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (authedRoute === "any") {
+    if (authedRoute === "any" || status === "loading") {
       return;
     }
 
