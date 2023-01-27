@@ -13,7 +13,21 @@ type Props = {
 export const HabitHeatMap: React.FC<Props> = ({ habits, habitCompletions }) => {
   const { width } = useWindowSize();
   const closestDaysDisplayed =
-    width < 440 ? 40 : width < 520 ? 60 : width < 860 ? 70 : 100;
+    width < 440
+      ? 40
+      : width < 520
+      ? 60
+      : width < 860
+      ? 70
+      : width < 1400
+      ? 100
+      : width < 1600
+      ? 120
+      : width < 1800
+      ? 140
+      : width < 2000
+      ? 160
+      : 180;
   const squareSize =
     width < 660 ? "w-8 h-8" : width < 1200 ? "w-10 h-10" : "w-12 h-12";
 
