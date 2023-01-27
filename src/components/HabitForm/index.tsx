@@ -48,8 +48,11 @@ export const HabitForm = ({ handleClose, userId }: Props) => {
 
   const trpcUtils = trpc.useContext();
   const { mutate } = trpc.habit.create.useMutation({
-    onSuccess: () => {
-      trpcUtils.habit.getAll.invalidate({ userId });
+    onSuccess: (habitCreated) => {
+      trpcUtils.habit.getAll.setData({ userId }, (habits) => [
+        ...(habits ?? []),
+        habitCreated,
+      ]);
 
       handleClose();
       toast.success("Habit created successfully!");

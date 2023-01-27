@@ -16,7 +16,7 @@ export const habitRouter = router({
         },
       });
 
-      return habits || [];
+      return habits ?? [];
     }),
 
   getAllCompletions: publicProcedure
@@ -34,7 +34,7 @@ export const habitRouter = router({
         },
       });
 
-      return completions || [];
+      return completions ?? [];
     }),
 
   create: publicProcedure
