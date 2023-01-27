@@ -49,19 +49,19 @@ export const AddNewHabit: React.FC = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-neutral-800 p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-zinc-900 p-8 text-left align-middle shadow-xl transition-all">
                   <header className="flex items-center justify-between">
                     <Dialog.Title
                       as="h3"
-                      className="text-2xl font-bold text-white"
+                      className="text-2xl font-extrabold text-white"
                     >
-                      Create habit
+                      Add new habit
                     </Dialog.Title>
                     <button
                       onClick={() => handleCloseForm()}
                       className="rounded-lg focus:outline-none  focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                     >
-                      <XMarkIcon className="h-8 w-8 text-neutral-400" />
+                      <XMarkIcon className="h-8 w-8 text-neutral-300" />
                     </button>
                   </header>
 

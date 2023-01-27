@@ -86,7 +86,7 @@ export const HabitForm = ({ handleClose, userId }: Props) => {
       <div className="mt-6 flex flex-col gap-6">
         <div>
           <label
-            className="mb-2 block w-fit pr-4 font-semibold text-neutral-100"
+            className="mb-2 block w-fit font-semibold text-neutral-100"
             htmlFor="title"
           >
             Title
@@ -103,7 +103,7 @@ export const HabitForm = ({ handleClose, userId }: Props) => {
           )}
         </div>
         <div>
-          <label className="mb-2 block pr-4 font-semibold text-neutral-100">
+          <label className="mb-2 block font-semibold text-neutral-100">
             Frequency
           </label>
           <div className="flex flex-col gap-2">
@@ -125,7 +125,7 @@ export const HabitForm = ({ handleClose, userId }: Props) => {
                         className={clsx(
                           checked
                             ? "border-green-500 bg-green-500"
-                            : "border-neutral-600 bg-transparent",
+                            : "border-zinc-700 bg-transparent",
                           "grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
                         )}
                       >
@@ -150,9 +150,10 @@ export const HabitForm = ({ handleClose, userId }: Props) => {
       </div>
       <button
         type="submit"
-        className="mt-6 w-full rounded-md border border-transparent bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-400 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
+        className="mt-6 flex w-full items-center justify-center gap-3 rounded-lg border border-transparent bg-green-500 px-4 py-3 text-white transition-colors hover:bg-green-400 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
       >
-        Create
+        <CheckIcon className="h-5 w-5" />
+        <span className="font-semibold">Create</span>
       </button>
     </form>
   );

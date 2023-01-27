@@ -1,11 +1,10 @@
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
-import type { ComponentProps } from "react";
-import { forwardRef } from "react";
+import { forwardRef, type ComponentProps } from "react";
 
-export type InputProps = ComponentProps<"input"> & { error?: boolean };
+type Props = ComponentProps<"input"> & { error?: boolean };
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
+export const Input = forwardRef<HTMLInputElement, Props>(
   ({ id, error, ...props }, ref) => {
     return (
       <div className="relative">
@@ -14,7 +13,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             error
               ? "pr-10 text-red-300 focus-visible:ring-red-400"
               : "pr-0 text-neutral-100 focus-visible:ring-white focus-visible:ring-opacity-75",
-            "w-full appearance-none rounded-lg  bg-neutral-600 py-2 px-4 leading-tight  placeholder:text-neutral-300 focus:outline-none focus-visible:ring-2"
+            "w-full appearance-none rounded-xl  bg-zinc-800 p-4  placeholder:text-neutral-300 focus:outline-none focus-visible:ring-2"
           )}
           id={id}
           ref={ref}
@@ -34,5 +33,3 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 );
 
 Input.displayName = "Input";
-
-export { Input };
