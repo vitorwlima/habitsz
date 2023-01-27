@@ -13,6 +13,8 @@ export const HabitHeatMap: React.FC = () => {
       ? 60
       : width < 860
       ? 70
+      : width < 1140
+      ? 85
       : width < 1400
       ? 100
       : width < 1600
@@ -23,9 +25,9 @@ export const HabitHeatMap: React.FC = () => {
       ? 160
       : 180;
   const squareSize =
-    width < 660 ? "w-8 h-8" : width < 1200 ? "w-10 h-10" : "w-12 h-12";
+    width < 660 ? "w-8 h-8" : width < 1260 ? "w-10 h-10" : "w-12 h-12";
   const heatMapMarginLeft =
-    width < 660 ? "ml-10" : width < 1200 ? "ml-12" : "ml-14";
+    width < 660 ? "ml-10" : width < 1260 ? "ml-12" : "ml-14";
 
   const today = startOfDay(new Date());
   const weekDay = today.getDay();
