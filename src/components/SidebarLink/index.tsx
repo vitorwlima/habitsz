@@ -25,9 +25,9 @@ export const SidebarLink = ({ path }: Props) => {
     <Link
       href={path}
       className={clsx(
-        "flex items-center p-4 text-neutral-100 transition-colors hover:bg-blue-200 hover:bg-opacity-25",
+        "flex items-center p-4 text-neutral-100 transition-colors hover:bg-blue-200 hover:bg-opacity-25 hover:text-blue-200",
         {
-          "bg-blue-200 bg-opacity-25": asPath === `/${path}`,
+          "bg-blue-200 bg-opacity-25 text-blue-200": asPath === `/${path}`,
         }
       )}
     >
