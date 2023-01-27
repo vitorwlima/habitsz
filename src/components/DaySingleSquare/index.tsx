@@ -48,7 +48,7 @@ export const DaySingleSquare: React.FC<Props> = ({
 
   return (
     <Popover className="relative">
-      <Popover.Button className="grid place-items-center">
+      <Popover.Button className="grid place-items-center rounded-lg focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75">
         <div
           className={`${squareColor} ${squareSize} rounded-lg border-2 transition-colors`}
         />

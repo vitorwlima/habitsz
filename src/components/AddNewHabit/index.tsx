@@ -59,7 +59,7 @@ export const AddNewHabit: React.FC = () => {
                     </Dialog.Title>
                     <button
                       onClick={() => handleCloseForm()}
-                      className="rounded-lg focus:outline-none  focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                      className="rounded-lg focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
                     >
                       <XMarkIcon className="h-8 w-8 text-neutral-300" />
                     </button>

@@ -126,7 +126,7 @@ export const HabitForm = ({ handleClose, userId }: Props) => {
                           checked
                             ? "border-green-500 bg-green-500"
                             : "border-zinc-700 bg-transparent",
-                          "grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
+                          "grid h-7 w-7 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
                         )}
                       >
                         <CheckIcon
