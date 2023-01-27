@@ -29,19 +29,20 @@ export const DaySingleSquare: React.FC<Props> = ({
   const percentageDone = completedHabitsAmount / habitsAmount;
 
   const dayName = format(date, "EEEE");
+  const displayDate = format(date, "MM/dd");
   const formattedDate = format(date, "yyyy-MM-dd");
   const squareColor =
     percentageDone === 0 ||
     !Number.isFinite(percentageDone) ||
     Number.isNaN(percentageDone)
-      ? "bg-neutral-800"
+      ? "bg-transparent border-zinc-700"
       : percentageDone <= 0.33
-      ? "bg-blue-300"
+      ? "bg-blue-900 border-blue-700"
       : percentageDone <= 0.66
-      ? "bg-blue-400"
+      ? "bg-blue-800 border-blue-600"
       : percentageDone < 1
-      ? "bg-blue-500"
-      : "bg-blue-600";
+      ? "bg-blue-700 border-blue-500"
+      : "bg-blue-600 border-blue-400";
   const topBottom = quadrant.y === "top" ? "top-4" : "bottom-4";
   const leftRight = quadrant.x === "left" ? "left-4" : "right-4";
 
@@ -49,7 +50,7 @@ export const DaySingleSquare: React.FC<Props> = ({
     <Popover className="relative">
       <Popover.Button className="grid place-items-center">
         <div
-          className={`${squareColor} ${squareSize} rounded-md border border-blue-900 transition-colors`}
+          className={`${squareColor} ${squareSize} rounded-lg border-2 transition-colors`}
         />
       </Popover.Button>
       <Transition
@@ -62,19 +63,19 @@ export const DaySingleSquare: React.FC<Props> = ({
         leaveTo="opacity-0 translate-y-1"
       >
         <Popover.Panel
-          className={`${topBottom} ${leftRight} absolute z-10 w-48 rounded-lg bg-zinc-800 p-4 lg:w-96`}
+          className={`${topBottom} ${leftRight} absolute z-10 w-48 rounded-lg bg-zinc-900 p-4 drop-shadow-md lg:w-96`}
         >
-          <p className="text-zinc-200">{dayName}</p>
-          <strong className="mt-1 mb-4 block text-xl">
-            {date.toLocaleDateString()}
+          <p className="text-sm text-zinc-400">{dayName}</p>
+          <strong className="mt-1 mb-4 block text-xl font-extrabold lg:text-2xl">
+            {displayDate}
           </strong>
-          <div className="relative h-2 rounded-full bg-gray-500">
+          <div className="relative h-2 rounded-full bg-zinc-700">
             <div
-              className="absolute left-0 h-2 rounded-full bg-blue-500 transition-all"
+              className="absolute left-0 h-2 rounded-full bg-blue-600 transition-all"
               style={{ width: `${percentageDone * 100}%` }}
             />
           </div>
-          <div className="mt-4 flex flex-col gap-2 text-lg">
+          <div className="mt-6 flex flex-col gap-2 text-lg">
             {habits.length
               ? habits.map((habit) => (
                   <HabitItem

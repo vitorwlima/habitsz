@@ -70,10 +70,10 @@ export const HabitItem: React.FC<Props> = ({
         checked={completed}
         className={`${
           completed
-            ? "border-blue-500 bg-blue-500"
-            : "border-neutral-600 bg-transparent"
+            ? "border-blue-600 bg-blue-600"
+            : "border-zinc-800 bg-transparent"
         }
-          grid h-6 w-6 place-items-center rounded-lg border-2  transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+          grid h-6 w-6 place-items-center rounded-lg border-2 transition-colors focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
       >
         <CheckIcon
           className={`h-4 w-4 text-white transition-all ${
@@ -82,7 +82,9 @@ export const HabitItem: React.FC<Props> = ({
         />
       </Switch>
       <span
-        className={`text-left text-lg leading-6 ${completed && "opacity-50"}`}
+        className={`text-left text-lg leading-6 text-neutral-100 ${
+          completed && "opacity-50"
+        }`}
       >
         {habit.title}
       </span>

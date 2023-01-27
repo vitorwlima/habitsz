@@ -2,7 +2,7 @@ import { Bars3Icon } from "@heroicons/react/20/solid";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { Habits } from "../components/Habits";
+import { HabitHeatMap } from "../components/HabitHeatMap";
 import { Loading } from "../components/Loading";
 import { Sidebar } from "../components/Sidebar";
 import { Title } from "../components/Title";
@@ -34,7 +34,7 @@ const Dashboard: NextPage = () => {
   if (userStatus === "loading") return null;
 
   return (
-    <main className="flex min-h-screen flex-col bg-neutral-900 text-white lg:flex-row">
+    <main className="flex min-h-screen flex-col bg-zinc-900 text-white lg:flex-row">
       <header className="mb-8 flex items-center justify-between py-8 px-4 lg:hidden">
         <button onClick={() => switchIsOpen()}>
           <Bars3Icon className="flex h-8 w-8" />
@@ -52,7 +52,7 @@ const Dashboard: NextPage = () => {
         {isLoading ? (
           <Loading />
         ) : (
-          <Habits habits={habits} habitCompletions={completions} />
+          <HabitHeatMap habits={habits} habitCompletions={completions} />
         )}
       </div>
     </main>

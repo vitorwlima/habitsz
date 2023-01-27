@@ -9,7 +9,7 @@ type Props = {
   habitCompletions: HabitCompletion[];
 };
 
-export const Habits: React.FC<Props> = ({ habits, habitCompletions }) => {
+export const HabitHeatMap: React.FC<Props> = ({ habits, habitCompletions }) => {
   const { width } = useWindowSize();
   const closestDaysDisplayed =
     width < 440 ? 40 : width < 520 ? 60 : width < 860 ? 70 : 100;
@@ -27,12 +27,14 @@ export const Habits: React.FC<Props> = ({ habits, habitCompletions }) => {
   return (
     <section>
       <header className="flex items-center justify-between">
-        <span className="font-bold">Last {weeksDisplayed} weeks</span>
+        <span className="text-xl font-bold text-neutral-100">
+          Last {weeksDisplayed} weeks
+        </span>
 
         <AddNewHabit />
       </header>
 
-      <div className="mx-auto mt-16">
+      <div className="mx-auto mt-8">
         <DaySquares
           habits={habits}
           habitCompletions={habitCompletions}
