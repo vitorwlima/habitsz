@@ -42,6 +42,8 @@ export const DaySquares: React.FC<Props> = ({
           x: index < allDays.length / 2 ? "left" : "right",
           y: index % 7 < 3 ? "top" : "bottom",
         };
+        const isToday =
+          format(day, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
         return (
           <DaySingleSquare
             key={day.toString()}
@@ -50,6 +52,7 @@ export const DaySquares: React.FC<Props> = ({
             habitCompletions={currDayCompletions}
             squareSize={squareSize}
             quadrant={quadrant}
+            isToday={isToday}
           />
         );
       })}

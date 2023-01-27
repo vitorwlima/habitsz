@@ -1,5 +1,6 @@
 import { Popover, Transition } from "@headlessui/react";
 import type { Habit, HabitCompletion } from "@prisma/client";
+import clsx from "clsx";
 import { format } from "date-fns";
 import { Fragment } from "react";
 import { HabitItem } from "../HabitItem";
@@ -13,6 +14,7 @@ type Props = {
     x: "left" | "right";
     y: "top" | "bottom";
   };
+  isToday: boolean;
 };
 
 export const DaySingleSquare: React.FC<Props> = ({
@@ -21,6 +23,7 @@ export const DaySingleSquare: React.FC<Props> = ({
   date,
   squareSize,
   quadrant,
+  isToday,
 }) => {
   const habitsAmount = habits.length;
   const completedHabitsAmount = habitCompletions.filter(
@@ -50,7 +53,12 @@ export const DaySingleSquare: React.FC<Props> = ({
     <Popover className="relative">
       <Popover.Button className="grid place-items-center rounded-lg focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75">
         <div
-          className={`${squareColor} ${squareSize} rounded-lg border-2 transition-colors`}
+          className={clsx(
+            `${squareColor} ${squareSize} rounded-lg border-2 transition-colors`,
+            {
+              "border-neutral-100": isToday,
+            }
+          )}
         />
       </Popover.Button>
       <Transition
