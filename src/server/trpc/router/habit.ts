@@ -84,4 +84,22 @@ export const habitRouter = router({
 
       return habitCompletion;
     }),
+
+  delete: protectedProcedure
+    .input(z.object({ habitId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.habitCompletion.deleteMany({
+        where: {
+          habitId: input.habitId,
+        },
+      });
+
+      const habit = await ctx.prisma.habit.delete({
+        where: {
+          id: input.habitId,
+        },
+      });
+
+      return habit;
+    }),
 });

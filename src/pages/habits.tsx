@@ -1,5 +1,6 @@
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import { type NextPage } from "next";
+import { Habits as HabitsList } from "../components/Habits";
 import { Loading } from "../components/Loading";
 import { Sidebar } from "../components/Sidebar";
 import { Title } from "../components/Title";
@@ -31,8 +32,8 @@ const Habits: NextPage = () => {
         isOpen={isSidebarOpen}
         switchIsOpen={switchIsSidebarOpen}
       />
-      <div className="mx-auto flex max-w-[1000px] items-center justify-center py-8 px-4">
-        {isLoading ? <Loading /> : <div>Em breve</div>}
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-center py-8 px-4">
+        {isLoading ? <Loading /> : <HabitsList />}
       </div>
     </main>
   );
