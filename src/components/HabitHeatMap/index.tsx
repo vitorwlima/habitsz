@@ -3,6 +3,7 @@ import { addDays, startOfDay } from "date-fns";
 import { useWindowSize } from "usehooks-ts";
 import { AddNewHabit } from "../AddNewHabit";
 import { DaySquares } from "../DaySquares";
+import { HeatMapSubtitles } from "../HeatMapSubtitles";
 
 type Props = {
   habits: Habit[];
@@ -41,6 +42,10 @@ export const HabitHeatMap: React.FC<Props> = ({ habits, habitCompletions }) => {
           allDays={allDays}
           squareSize={squareSize}
         />
+      </div>
+
+      <div className="mt-8 sm:ml-8">
+        <HeatMapSubtitles />
       </div>
     </section>
   );
