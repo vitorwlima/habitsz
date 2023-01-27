@@ -17,7 +17,7 @@ const icons = {
   analytics: ChartPieIcon,
 };
 
-export const SidebarLink = ({ path }: Props) => {
+export const SidebarLink: React.FC<Props> = ({ path }) => {
   const { asPath } = useRouter();
   const Icon = icons[path];
 

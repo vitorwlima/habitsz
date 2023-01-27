@@ -32,7 +32,7 @@ const HabitSchema = z.object({
   frequency: z.array(z.string()).min(1, "Frequency must have at least one day"),
 });
 
-export const HabitForm = ({ handleClose, userId }: Props) => {
+export const HabitForm: React.FC<Props> = ({ handleClose, userId }) => {
   const methods = useZodForm({
     schema: HabitSchema,
     defaultValues: {
