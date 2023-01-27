@@ -1,5 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { Fragment, useState } from "react";
 import { HabitForm } from "../HabitForm";
@@ -16,10 +17,11 @@ export const AddNewHabit: React.FC = () => {
   return (
     <>
       <button
-        className="w-fit justify-center rounded-md border-2 border-blue-900 px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-700 focus-visible:ring-offset-2"
+        className="flex w-fit items-center justify-center rounded-lg border-2 border-blue-600 px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-800 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
         onClick={() => setIsOpen(true)}
       >
-        + Add new habit
+        <PlusCircleIcon className="mr-2 h-6 w-6 text-blue-600" />
+        <span className="text-neutral-100">Add new habit</span>
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
