@@ -1,10 +1,18 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import {
+  EllipsisVerticalIcon,
+  PlusCircleIcon,
+} from "@heroicons/react/24/outline";
+import { type Habit } from "@prisma/client";
 import { Fragment, useState } from "react";
 import { HabitForm } from "../HabitForm";
 
-export const AddNewHabit: React.FC = () => {
+type Props = {
+  habit?: Habit;
+};
+
+export const AddNewHabit: React.FC<Props> = ({ habit }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCloseForm = () => {
@@ -13,13 +21,19 @@ export const AddNewHabit: React.FC = () => {
 
   return (
     <>
-      <button
-        className="flex w-fit items-center justify-center rounded-lg border-2 border-blue-600 px-2 py-2 text-sm font-medium transition-colors hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-white  focus-visible:ring-opacity-75 sm:px-4"
-        onClick={() => setIsOpen(true)}
-      >
-        <PlusCircleIcon className="mr-2 h-6 w-6 text-blue-600" />
-        <span className="text-neutral-100">Add new habit</span>
-      </button>
+      {habit ? (
+        <button onClick={() => setIsOpen(true)}>
+          <EllipsisVerticalIcon className="h-6 w-6 text-zinc-100" />
+        </button>
+      ) : (
+        <button
+          className="flex w-fit items-center justify-center rounded-lg border-2 border-blue-600 px-2 py-2 text-sm font-medium transition-colors hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-white  focus-visible:ring-opacity-75 sm:px-4"
+          onClick={() => setIsOpen(true)}
+        >
+          <PlusCircleIcon className="mr-2 h-6 w-6 text-blue-600" />
+          <span className="text-neutral-100">Add new habit</span>
+        </button>
+      )}
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={handleCloseForm}>
@@ -52,7 +66,7 @@ export const AddNewHabit: React.FC = () => {
                       as="h3"
                       className="text-2xl font-extrabold text-white"
                     >
-                      Add new habit
+                      {habit ? "Edit habit" : "Add new habit"}
                     </Dialog.Title>
                     <button
                       onClick={() => handleCloseForm()}
@@ -62,7 +76,7 @@ export const AddNewHabit: React.FC = () => {
                     </button>
                   </header>
 
-                  <HabitForm handleClose={handleCloseForm} />
+                  <HabitForm handleClose={handleCloseForm} habit={habit} />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

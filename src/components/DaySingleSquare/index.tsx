@@ -26,9 +26,11 @@ export const DaySingleSquare: React.FC<Props> = ({
   isToday,
 }) => {
   const habitsAmount = habits.length;
-  const completedHabitsAmount = habitCompletions.filter(
-    (hC) => hC.completed
-  ).length;
+  const completedHabitsAmount = habitCompletions.filter((hC) => {
+    const relatedHabit = habits.find((h) => h.id === hC.habitId);
+    const weekDay = format(date, "E");
+    return hC.completed && relatedHabit?.frequency.includes(weekDay);
+  }).length;
   const percentageDone = completedHabitsAmount / habitsAmount;
 
   const dayName = format(date, "EEEE");

@@ -1,5 +1,6 @@
 import { Switch } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
+import { type Habit } from "@prisma/client";
 import clsx from "clsx";
 import { Controller } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -10,6 +11,7 @@ import { Input } from "../Input";
 
 type Props = {
   handleClose: () => void;
+  habit?: Habit;
 };
 
 const frequencyOptions = [
@@ -31,12 +33,12 @@ const HabitSchema = z.object({
   frequency: z.array(z.string()).min(1, "Frequency must have at least one day"),
 });
 
-export const HabitForm: React.FC<Props> = ({ handleClose }) => {
+export const HabitForm: React.FC<Props> = ({ handleClose, habit }) => {
   const methods = useZodForm({
     schema: HabitSchema,
     defaultValues: {
-      title: "",
-      frequency: [],
+      title: habit ? habit.title : "",
+      frequency: habit ? habit.frequency.split(",") : [],
     },
   });
 
@@ -46,7 +48,7 @@ export const HabitForm: React.FC<Props> = ({ handleClose }) => {
   } = methods;
 
   const trpcUtils = trpc.useContext();
-  const { mutate } = trpc.habit.create.useMutation({
+  const { mutate: mutateCreate } = trpc.habit.create.useMutation({
     onSuccess: (habitCreated) => {
       trpcUtils.habit.getAll.setData(undefined, (habits) => [
         ...(habits ?? []),
@@ -61,6 +63,22 @@ export const HabitForm: React.FC<Props> = ({ handleClose }) => {
       console.log("An error happened: ", err);
     },
   });
+  const { mutate: mutateUpdate } = trpc.habit.update.useMutation({
+    onSuccess: (habitUpdated) => {
+      trpcUtils.habit.getAll.setData(undefined, (habits) => [
+        ...(habits ?? []).map((habit) =>
+          habit.id === habitUpdated.id ? habitUpdated : habit
+        ),
+      ]);
+
+      handleClose();
+      toast.success("Habit updated successfully!");
+    },
+    onError: (err) => {
+      toast.error("Habit update failed!");
+      console.log("An error happened: ", err);
+    },
+  });
 
   const onFrequencyChange = (option: string) => {
     const values = methods.getValues();
@@ -72,15 +90,23 @@ export const HabitForm: React.FC<Props> = ({ handleClose }) => {
     );
   };
 
+  const handleCreateOrEditHabit = handleSubmit((data) => {
+    if (habit) {
+      mutateUpdate({
+        frequency: data.frequency.join(","),
+        title: data.title,
+        habitId: habit.id,
+      });
+    } else {
+      mutateCreate({
+        frequency: data.frequency.join(","),
+        title: data.title,
+      });
+    }
+  });
+
   return (
-    <form
-      onSubmit={handleSubmit((data) => {
-        mutate({
-          frequency: data.frequency.join(","),
-          title: data.title,
-        });
-      })}
-    >
+    <form onSubmit={handleCreateOrEditHabit}>
       <div className="mt-6 flex flex-col gap-6">
         <div>
           <label
@@ -152,7 +178,7 @@ export const HabitForm: React.FC<Props> = ({ handleClose }) => {
         className="mt-6 flex w-full items-center justify-center gap-3 rounded-lg border border-transparent  bg-green-500 px-4 py-3  text-white transition-colors  hover:bg-green-400 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
       >
         <CheckIcon className="h-5 w-5" />
-        <span className="font-semibold">Create</span>
+        <span className="font-semibold">{habit ? "Save" : "Create"}</span>
       </button>
     </form>
   );

@@ -102,4 +102,26 @@ export const habitRouter = router({
 
       return habit;
     }),
+
+  update: protectedProcedure
+    .input(
+      z.object({
+        habitId: z.string(),
+        title: z.string(),
+        frequency: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const habit = await ctx.prisma.habit.update({
+        where: {
+          id: input.habitId,
+        },
+        data: {
+          title: input.title,
+          frequency: input.frequency,
+        },
+      });
+
+      return habit;
+    }),
 });
