@@ -14,7 +14,7 @@
 
 Track your habits to build an awesome life.
 
-<img width="1508" alt="image" src="https://user-images.githubusercontent.com/82615423/214132763-8b930d2d-a816-4727-b2f9-950fc97430e5.png">
+- To add image here
 
 <!---
 Todo: Add more info about the project with screenshots
